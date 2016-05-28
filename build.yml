@@ -1,0 +1,30 @@
+version: 1.0.0-{branch}-{build}
+branches:
+  only:
+  - Dev
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+build_script:
+- ps: >-
+    $version = -join($env:APPVEYOR_REPO_BRANCH, "-", $env:APPVEYOR_BUILD_NUMBER);
+    dotnet restore
+
+    cd C:\projects\mudengine-core\src
+
+    dotnet build
+
+    dotnet pack --version-suffix $version
+test: off
+artifacts:
+- path: '**\*.nupkg'
+  name: NuGet-Dev
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/muddesigner-ci/api/v2/package
+  api_key:
+    secure: IkeQE03X+pt2REvzU7LsLRxY64Y5a3CRTRTzFFNjHW8D8XvXVH3v5ebR3fFLoAhG
+  skip_symbols: true

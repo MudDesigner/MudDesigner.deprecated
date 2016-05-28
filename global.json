@@ -1,0 +1,10 @@
+{
+  "projects": [ 
+    "Source/Runtime/MudDesigner.Engine",
+    "Source/Runtime/MudDesigner.Adapters.BasicRules",
+    "Source/Runtime/MudDesigner.Adapters.Server"
+    ],
+  "sdk": {
+    "version": "1.0.0-preview1-002702"
+  }
+}
