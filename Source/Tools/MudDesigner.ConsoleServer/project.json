@@ -15,11 +15,11 @@
   },
     
   "buildOptions": {
-    "emitEntryPoint": true
+    "emitEntryPoint": false
   },
   
   "dependencies":{
-    "MudDesigner.Engine.Core": "1.0.0-Dev-*",
+    "MudDesigner.Engine": "1.0.0  -*",
     "MudDesigner.Adapters.Server": "1.0.0-Dev-*",
     "Microsoft.NETCore.App": {
       "type": "platform",
@@ -29,7 +29,6 @@
   
   "frameworks": {
     "netcoreapp1.0": {
-      "imports": "dnxcore50"
     }
   }
 }

@@ -11,7 +11,8 @@
             "args": [ 
                 "Source/Runtime/MudDesigner.Engine", 
                 "Source/Runtime/MudDesigner.Adapters.BasicRules",
-                "Source/Runtime/MudDesigner.Adapters.Server"
+                "Source/Runtime/MudDesigner.Adapters.Server",
+                "Source/Tools/MudDesigner.ConsoleServer"
                 ],
             "isBuildCommand": true,
             "showOutput": "always",
