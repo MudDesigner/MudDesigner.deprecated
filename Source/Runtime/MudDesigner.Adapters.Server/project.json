@@ -10,7 +10,7 @@
   },
   
   "name": "MudDesigner.Adapters.Server",
-  "version": "1.0.0-Dev-*",
+  "version": "1.0.0-*",
   "authors": [ "scionwest" ],
   "title": "Mud Designer Engine Server",
   
