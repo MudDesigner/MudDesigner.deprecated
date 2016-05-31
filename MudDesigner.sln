@@ -7,11 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{65CAB49E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runtime", "Runtime", "{B7ED4F55-0E03-467D-9176-78FB39427393}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Engine", ".\Source\Runtime\MudDesigner.Engine\MudDesigner.Engine.xproj", "{74B1A90C-688F-4C8F-B122-17DF43429CAA}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Engine", "Source\Runtime\MudDesigner.Engine\MudDesigner.Engine.xproj", "{74B1A90C-688F-4C8F-B122-17DF43429CAA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Adapters.BasicRules", ".\Source\Runtime\MudDesigner.Adapters.BasicRules\MudDesigner.Adapters.BasicRules.xproj", "{F03D107E-292C-4FD7-9BDC-DA843996A7F9}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Adapters.BasicRules", "Source\Runtime\MudDesigner.Adapters.BasicRules\MudDesigner.Adapters.BasicRules.xproj", "{F03D107E-292C-4FD7-9BDC-DA843996A7F9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Adapters.Server", ".\Source\Runtime\MudDesigner.Adapters.Server\MudDesigner.Adapters.Server.xproj", "{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Adapters.Server", "Source\Runtime\MudDesigner.Adapters.Server\MudDesigner.Adapters.Server.xproj", "{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.ConsoleServer", "Source\Tools\MudDesigner.ConsoleServer\MudDesigner.ConsoleServer.xproj", "{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +45,6 @@ Global
 		{74B1A90C-688F-4C8F-B122-17DF43429CAA} = {B7ED4F55-0E03-467D-9176-78FB39427393}
 		{F03D107E-292C-4FD7-9BDC-DA843996A7F9} = {B7ED4F55-0E03-467D-9176-78FB39427393}
 		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1} = {B7ED4F55-0E03-467D-9176-78FB39427393}
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5} = {65CAB49E-6D15-4403-96AD-057AB1204675}
 	EndGlobalSection
 EndGlobal
