@@ -50,11 +50,11 @@ namespace MudDesigner.MudServer
             gameConfig.UseAdapter(server);
             //gameConfig.UseAdapter(commandManager);
 
-            //         IGame game = new MudGame();
-            //         game.Configure(gameConfig);
-            //this.Game = game;
+            IGame game = new MudGame();
+            game.Configure(gameConfig);
+            this.Game = game;
 
-            return null;// game.StartAsync();
+            return game.StartAsync();
         }
     }
 }

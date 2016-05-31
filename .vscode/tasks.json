@@ -23,6 +23,12 @@
             "args": [  "Source" ],
             "showOutput": "always",
             "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "run",
+            "args": [  "Source/Tools/MudDesigner.ConsoleServer" ],
+            "showOutput": "always",
+            "problemMatcher": "$msCompile"
         }
     ]
 }

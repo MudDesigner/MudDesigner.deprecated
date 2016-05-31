@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/bin/Debug/netstandard1.1/MudEngine.Core.dll>",
+            "program": "${workspaceRoot}/Source/Tools/MudDesigner.ConsoleServer/bin/Debug/netcoreapp1.0/MudDesigner.ConsoleServer.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false

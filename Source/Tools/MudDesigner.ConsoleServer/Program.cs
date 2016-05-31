@@ -12,6 +12,7 @@ namespace MudDesigner.MudServer.Windows
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Foo Bar");
             SetupMessageBrokering();
             
             var bootstrap = new Bootstrap();
@@ -23,8 +24,8 @@ namespace MudDesigner.MudServer.Windows
 
         static void SetupMessageBrokering()
         {
-            MessageBrokerFactory.Instance.Subscribe<InfoMessage>(
-                (msg, subscription) => Console.WriteLine(msg.Content));
+            // MessageBrokerFactory.Instance.Subscribe<InfoMessage>(
+            //     (msg, subscription) => Console.WriteLine(msg.Content));
 
             //MessageBrokerFactory.Instance.Subscribe<GameMessage>(
             //    (msg, subscription) => Console.WriteLine(msg.Content));
