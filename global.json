@@ -3,8 +3,7 @@
     "Source/Runtime/MudDesigner.Engine",
     "Source/Runtime/MudDesigner.Adapters.BasicRules",
     "Source/Runtime/MudDesigner.Adapters.Server",
-    "Source/Tools/MudDesigner.ConsoleServer",
-    "Source/Runtime"
+    "Source/Tools/MudDesigner.ConsoleServer"
     ],
   "sdk": {
     "version": "1.0.0-preview1-002702"
