@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MudDesigner.Engine.Game;
 
-namespace MudDesigner.Engine
+namespace MudDesigner.Engine.Game
 {
     public interface IActorCommand
     {
@@ -25,11 +24,18 @@ namespace MudDesigner.Engine
         // </summary>
         bool IsSystemCommand { get; }
         
+        /// <summary>
+        /// Gets the root command name that represents the true name of this command, which all aliases point to.
+        /// </summary>
+        string RootCommandName { get; }
+        
         IActorCommand GetNextCommand();
         
         IActorCommand GetPreviousCommand();
         
         string[] GetCommandAliases();
+        
+        IAccessControl AccessControlRequired { get; }
         
         Task<bool> CanProcessCommand(ISecurity security, IMob source, string command, params string[] arguments);
         

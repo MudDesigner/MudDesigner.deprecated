@@ -1,0 +1,38 @@
+﻿{
+  "packOptions": {
+    "summary": "The Core API for the Mud Game Engine",
+    "tags": [ "Game-Engine", "game engine", "gameengine", "mud", "multi-user-dungeon", "mmo", "mmorpg", "game" ],
+    "owners": [ "scionwest" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/muddesigner/mudengine.core"
+    }
+  },
+  
+  "name": "MudDesigner.Engine.Tests",
+  "version": "1.0.0-*",
+  "authors": [ "scionwest" ],
+  "title": "Mud Designer Engine Core",
+  "testRunner": "mstest",
+  
+  "dependencies": {
+    "dotnet-test-mstest": "1.0.0-preview",
+    "MSTest.TestFramework": "1.0.0-preview",
+    "MudDesigner.Engine": "1.0.0-*"
+  },
+  
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "dnxcore50",
+        "portable-net45+win8"
+      ],
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0-RC2-3002702",
+          "type": "platform"
+        }
+      }
+    }
+  }
+}

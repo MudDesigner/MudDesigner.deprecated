@@ -13,7 +13,8 @@
                 "Source/Runtime/MudDesigner.Adapters.Commanding",
                 "Source/Runtime/MudDesigner.Adapters.BasicRules",
                 "Source/Runtime/MudDesigner.Adapters.Server",
-                "Source/Tools/MudDesigner.ConsoleServer"
+                "Source/Tools/MudDesigner.ConsoleServer",
+                "Tests/Runtime/MudDesigner.Engine.Tests"
                 ],
             "isBuildCommand": true,
             "showOutput": "always",
@@ -21,15 +22,22 @@
         },
         {
             "taskName": "restore",
-            "args": [  "Source" ],
+            "args": [ ],
             "showOutput": "always",
             "problemMatcher": "$msCompile"
         },
-{
-    "taskName": "run",
-    "args": [ "-p", "Source/Tools/MudDesigner.ConsoleServer" ],
-    "showOutput": "always",
-    "problemMatcher": "$msCompile"
-}
+        {
+            "taskName": "run",
+            "args": [ "-p", "Source/Tools/MudDesigner.ConsoleServer" ],
+            "showOutput": "always",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "test",
+            "args": [ "-p", "Tests/Runtime/MudDesigner.Engine.Tests" ],
+            "showOutput": "always",
+            "isTestCommand": true,
+            "problemMatcher": "$msCompile"
+        }
     ]
 }

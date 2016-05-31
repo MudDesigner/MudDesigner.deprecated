@@ -72,7 +72,7 @@ namespace MudDesigner.Adapters.BasicRules
         /// Gets a subset of all actors in the room that are ICharacter instances only.
         /// </summary>
         /// <returns>Returns an array of Characters</returns>
-        public ICharacter[] GetCharactersInRoom() => this.actors.OfType<ICharacter>().ToArray();
+        public IMob[] GetMobsInRoom() => this.actors.OfType<IMob>().ToArray();
 
         /// <summary>
         /// Gets all of the doorways that this room has connected to it.
