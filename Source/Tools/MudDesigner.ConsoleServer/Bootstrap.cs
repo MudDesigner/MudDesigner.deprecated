@@ -7,8 +7,10 @@ namespace MudDesigner.MudServer
 {
     using System;
     using System.Threading.Tasks;
-    using MudEngine;
-    using MudEngine.Commanding;
+    using Adapters.BasicRules;
+    using Adapters.Server;
+    using Engine;
+    using Engine.Game;
     using MudEngine.Networking;
 
     /// <summary>
@@ -41,18 +43,18 @@ namespace MudDesigner.MudServer
 			this.Server = server;
 
             // Commanding setup
-            var commandManager = new CommandManager();
-            commandManager.Configure(new CommandingConfiguration(new CommandFactory(new Type[] { typeof(LoginCommand), typeof(WalkCommand) })));
+            //var commandManager = new CommandManager();
+            //commandManager.Configure(new CommandingConfiguration(new CommandFactory(new Type[] { typeof(LoginCommand), typeof(WalkCommand) })));
 
             IGameConfiguration gameConfig = new GameConfiguration();
             gameConfig.UseAdapter(server);
-            gameConfig.UseAdapter(commandManager);
+            //gameConfig.UseAdapter(commandManager);
 
-            IGame game = new MudGame();
-            game.Configure(gameConfig);
-			this.Game = game;
+            //         IGame game = new MudGame();
+            //         game.Configure(gameConfig);
+            //this.Game = game;
 
-            return game.StartAsync();
+            return null;// game.StartAsync();
         }
     }
 }

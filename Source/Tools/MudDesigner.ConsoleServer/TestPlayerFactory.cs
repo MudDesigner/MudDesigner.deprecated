@@ -6,14 +6,12 @@
 namespace MudDesigner.MudEngine.Networking
 {
     using System;
-    using MudDesigner.MudEngine.Actors;
-    using Commanding;
-
+    using Engine.Game;
     public class TestPlayerFactory : IPlayerFactory
     {
-        public IPlayer CreatePlayer(IActorCommand initialCommand)
+        public IPlayer CreatePlayer()
         {
-            return new TestPlayer();
+            throw new NotImplementedException();
         }
     }
 }

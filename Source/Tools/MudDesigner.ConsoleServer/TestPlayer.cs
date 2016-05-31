@@ -4,16 +4,16 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using MudDesigner.MudEngine.Actors;
-using MudDesigner.MudEngine.Commanding;
-using MudDesigner.MudEngine.Environment;
+using MudDesigner.Engine;
+using MudDesigner.Engine.Game;
 
 namespace MudDesigner.MudEngine.Networking
 {
     public class TestPlayer : GameComponent, IPlayer
     {
-        public ICharacterClass CharacterClass
+        public List<IGameComponent> Components
         {
             get
             {
@@ -37,7 +37,7 @@ namespace MudDesigner.MudEngine.Networking
             }
         }
 
-        public IActorCommand InitialCommand
+        public IMobClass MobClass
         {
             get
             {
@@ -78,6 +78,11 @@ namespace MudDesigner.MudEngine.Networking
             throw new NotImplementedException();
         }
 
+        public void MoveToRoom(IRoom room)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetGender(IGender gender)
         {
             throw new NotImplementedException();
@@ -90,7 +95,7 @@ namespace MudDesigner.MudEngine.Networking
 
         protected override Task Load()
         {
-            return Task.FromResult(0);
+            throw new NotImplementedException();
         }
 
         protected override Task Unload()

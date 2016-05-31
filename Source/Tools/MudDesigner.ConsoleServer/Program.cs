@@ -5,13 +5,9 @@
 //-----------------------------------------------------------------------
 namespace MudDesigner.MudServer.Windows
 {
-    using MudDesigner.MudEngine.Actors;
-    using MudDesigner.MudEngine.MessageBrokering;
     using System;
-    using System.Threading;
-    using MudEngine;
     using System.Threading.Tasks;
-    
+    using Engine;
     class MainClass
     {
         public static void Main(string[] args)
@@ -30,17 +26,17 @@ namespace MudDesigner.MudServer.Windows
             MessageBrokerFactory.Instance.Subscribe<InfoMessage>(
                 (msg, subscription) => Console.WriteLine(msg.Content));
 
-            MessageBrokerFactory.Instance.Subscribe<GameMessage>(
-                (msg, subscription) => Console.WriteLine(msg.Content));
+            //MessageBrokerFactory.Instance.Subscribe<GameMessage>(
+            //    (msg, subscription) => Console.WriteLine(msg.Content));
 
-            MessageBrokerFactory.Instance.Subscribe<PlayerCreatedMessage>(
-                (msg, sub) => Console.WriteLine("Player connected."));
+            //MessageBrokerFactory.Instance.Subscribe<PlayerCreatedMessage>(
+            //    (msg, sub) => Console.WriteLine("Player connected."));
 
-            MessageBrokerFactory.Instance.Subscribe<PlayerDeletionMessage>(
-                (msg, sub) =>
-                {
-                    Console.WriteLine("Player disconnected.");
-                });
+            //MessageBrokerFactory.Instance.Subscribe<PlayerDeletionMessage>(
+            //    (msg, sub) =>
+            //    {
+            //        Console.WriteLine("Player disconnected.");
+            //    });
         }
     }
 }
