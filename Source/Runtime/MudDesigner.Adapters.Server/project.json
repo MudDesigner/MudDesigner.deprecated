@@ -15,7 +15,7 @@
   "title": "Mud Designer Engine Server",
   
   "dependencies":{
-    "MudDesigner.Engine": "1.0.0-Dev-*",
+    "MudDesigner.Engine": "1.0.0-*",
     "System.Runtime.InteropServices": "4.1.0-rc2-24027"
   },
   

@@ -19,8 +19,8 @@
   },
   
   "dependencies":{
-    "MudDesigner.Engine": "1.0.0  -*",
-    "MudDesigner.Adapters.Server": "1.0.0-Dev-*",
+    "MudDesigner.Engine": "1.0.0-*",
+    "MudDesigner.Adapters.Server": "1.0.0-*",
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.0.0-rc2-3002702"
