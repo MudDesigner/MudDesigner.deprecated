@@ -6,21 +6,21 @@ namespace MudDesigner.Engine.Game
     /// <summary>
     /// An exception to be thrown when an ICharacter is in an invalid state.
     /// </summary>
-    public class InvalidCharacterException : Exception
+    public class InvalidMobException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InvalidCharacterException" /> class.
+        /// Initializes a new instance of the <see cref="InvalidMobException" /> class.
         /// </summary>
-        /// <param name="character">The character.</param>
+        /// <param name="mob">The character.</param>
         /// <param name="message">The message.</param>
-        public InvalidCharacterException(ICharacter character, string message) : base(message)
+        public InvalidMobException(IMob mob, string message) : base(message)
         {
-            this.Character = character;
+            this.Mob = mob;
         }
 
         /// <summary>
         /// Gets the character that is in an invalid state.
         /// </summary>
-        public ICharacter Character { get; }
+        public IMob Mob { get; }
     }
 }

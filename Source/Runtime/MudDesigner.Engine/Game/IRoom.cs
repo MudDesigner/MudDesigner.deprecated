@@ -48,10 +48,10 @@ namespace MudDesigner.Engine.Game
         IActor[] GetActorsInRoom();
 
         /// <summary>
-        /// Gets a subset of all actors in the room that are ICharacter instances only.
+        /// Gets a subset of all actors in the room that are IMob instances only.
         /// </summary>
-        /// <returns>Returns an array of Characters</returns>
-        ICharacter[] GetCharactersInRoom();
+        /// <returns>Returns an array of Mobs</returns>
+        IMob[] GetMobsInRoom();
 
         /// <summary>
         /// Adds the supplied actor to the room as an occupant.

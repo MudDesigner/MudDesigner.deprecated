@@ -155,7 +155,7 @@ namespace MudDesigner.Adapters.Server
         /// <returns>
         /// Returns an awaitable Task
         /// </returns>
-        public override async Task Start(IGame game)
+        public override Task Start(IGame game)
         {
             if (this.Status != ServerStatus.Stopped)
             {
@@ -179,7 +179,7 @@ namespace MudDesigner.Adapters.Server
 
             if (this.RaiseOnStartup())
             {
-                return;
+                return Task.FromResult(0);
             }
 
             // Start a timer that periodically checks for clients that are no longer connected so we can clean them up.
@@ -188,8 +188,7 @@ namespace MudDesigner.Adapters.Server
 
             // Begin listening for connection.
             this.Status = ServerStatus.Running;
-            Socket clientSocket = await this.serverSocket.AcceptAsync();
-            await this.ConnectClient(clientSocket);
+            return this.ListenForConnection();
         }
 
         /// <summary>
@@ -250,6 +249,12 @@ namespace MudDesigner.Adapters.Server
 
             return this.playerSockets[player];
         }
+        
+        private async Task ListenForConnection()
+        {            
+            Socket clientSocket = await this.serverSocket.AcceptAsync();
+            await this.ConnectClient(clientSocket);
+        }
 
         private void Disconnect(IPlayer player)
         {
@@ -289,7 +294,7 @@ namespace MudDesigner.Adapters.Server
         {
             // Fetch the next incoming connection.
             await this.CreatePlayerConnection(clientConnection);
-            Socket newConnection = await this.serverSocket.AcceptAsync();
+                Socket newConnection = await this.serverSocket.AcceptAsync();
             await this.ConnectClient(newConnection);
         }
 
@@ -300,7 +305,7 @@ namespace MudDesigner.Adapters.Server
         private async Task CreatePlayerConnection(Socket clientConnection)
         {
             // Initialize a new player.
-            IPlayer player = null; //this.playerFactory.CreatePlayer(new LoginCommand());
+            IPlayer player = this.playerFactory.CreatePlayer();
             player.Deleting += this.PlayerDeleting;
 
             await player.Initialize();
@@ -310,7 +315,7 @@ namespace MudDesigner.Adapters.Server
             this.playerSockets.Add(player, clientConnection);
 
             // Create the user connection instance and store it for the player.
-            IConnection userConnection = null; //this.connectionFactory.CreateConnection(player, this, new ServerCommandProcessor(this));
+            IConnection userConnection = this.connectionFactory.CreateConnection(player, this);
             this.playerConnections.Add(player, userConnection);
 
             await userConnection.Initialize();

@@ -24,8 +24,7 @@ namespace MudDesigner.Adapters.Server
         public IConnection CreateConnection(IPlayer player, StandardServer server)
         {
             Socket playerConnection = server.GetSocketForPlayer(player);
-            throw new NotImplementedException();
-            // return new UserConnection(player, playerConnection, server.Configuration.PreferedBufferSize, commandProcessedFactory);
+            return new UserConnection(player, playerConnection, server.Configuration.PreferedBufferSize);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MudDesigner.Engine.Game
         /// or
         /// A valid arrivalRoom must be provided.
         /// </exception>
-        public RoomOccupancyChangedEventArgs(ICharacter occupant, ITravelDirection travelDirection, IRoom departureRoom, IRoom arrivalRoom)
+        public RoomOccupancyChangedEventArgs(IMob occupant, ITravelDirection travelDirection, IRoom departureRoom, IRoom arrivalRoom)
         {
             if (occupant == null)
             {
@@ -53,7 +53,7 @@ namespace MudDesigner.Engine.Game
         /// <summary>
         /// Gets the occupant that triggered this event.
         /// </summary>
-        public ICharacter Occupant { get; }
+        public IMob Occupant { get; }
 
         /// <summary>
         /// Gets the direction that the occupant traveled when leaving the departure room.
