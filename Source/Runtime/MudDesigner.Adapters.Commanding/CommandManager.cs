@@ -25,6 +25,19 @@ namespace MudDesigner.Adapters.Commanding
         }
         
         public override string Name => nameof(CommandManager);
+        
+        public IEnumerable<IActorCommand> GetAllowedCommands(ISecurity security, IActor actor)
+        {
+            foreach (IActorCommand command in this.commands)
+            {
+                if (!security.ActorHasAccessControl(actor, command.AccessControlRequired))
+                {
+                    continue;
+                }
+                
+                yield return command;
+            }
+        }
 
         public override void Configure()
         {
