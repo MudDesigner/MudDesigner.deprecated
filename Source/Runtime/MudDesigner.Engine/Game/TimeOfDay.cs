@@ -207,7 +207,7 @@ namespace MudDesigner.Engine.Game
             TimeOfDay timeOfDay = (TimeOfDay)obj;
             return timeOfDay.Hour == this.Hour
                 && timeOfDay.Minute == this.Minute
-                && timeOfDay.Hour == this.HoursPerDay;
+                && timeOfDay.HoursPerDay == this.HoursPerDay;
         }
         
         // override object.GetHashCode
