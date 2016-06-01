@@ -8,6 +8,10 @@
       "url": "https://github.com/muddesigner/mudengine.core"
     }
   },
+    
+  "buildOptions": {
+    "emitEntryPoint": false
+  },
   
   "name": "MudDesigner.Engine.Tests",
   "version": "1.0.0-*",
@@ -18,7 +22,15 @@
   "dependencies": {
     "dotnet-test-mstest": "1.0.0-preview",
     "MSTest.TestFramework": "1.0.0-preview",
-    "MudDesigner.Engine": "1.0.0-*"
+    "MudDesigner.Engine": "1.0.0-*",
+    "FluentAssertions": "4.2.3"
+  },
+  
+  "tools": {
+    "Microsoft.DotNet.Watcher.Tools": {
+      "version": "1.0.0-*",
+      "imports": "portable-net451+win8"
+    }
   },
   
   "frameworks": {

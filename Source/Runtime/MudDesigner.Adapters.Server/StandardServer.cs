@@ -308,17 +308,17 @@ namespace MudDesigner.Adapters.Server
             IPlayer player = this.playerFactory.CreatePlayer();
             player.Deleting += this.PlayerDeleting;
 
-            await player.Initialize();
-            // this.PublishMessage(new PlayerCreatedMessage(player));
+            // await player.Initialize();
+            this.PublishMessage(new InfoMessage("Player Connected"));
 
             // Add the player and it's connection to our collection of sockets
-            this.playerSockets.Add(player, clientConnection);
+            // this.playerSockets.Add(player, clientConnection);
 
             // Create the user connection instance and store it for the player.
-            IConnection userConnection = this.connectionFactory.CreateConnection(player, this);
-            this.playerConnections.Add(player, userConnection);
+            // IConnection userConnection = this.connectionFactory.CreateConnection(player, this);
+            // this.playerConnections.Add(player, userConnection);
 
-            await userConnection.Initialize();
+            // await userConnection.Initialize();
         }
 
         /// <summary>

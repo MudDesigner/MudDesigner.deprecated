@@ -189,6 +189,32 @@ namespace MudDesigner.Engine.Game
 
             return $"{hour}:{minute}";
         }
+        
+        public override bool Equals (object obj)
+        {
+            //
+            // See the full list of guidelines at
+            //   http://go.microsoft.com/fwlink/?LinkID=85237
+            // and also the guidance for operator== at
+            //   http://go.microsoft.com/fwlink/?LinkId=85238
+            //
+            
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            
+            TimeOfDay timeOfDay = (TimeOfDay)obj;
+            return timeOfDay.Hour == this.Hour
+                && timeOfDay.Minute == this.Minute
+                && timeOfDay.Hour == this.HoursPerDay;
+        }
+        
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return this.Hour.GetHashCode() ^ this.Minute.GetHashCode() ^ this.HoursPerDay.GetHashCode();
+        }
 
         /// <summary>
         /// Clones the properties of this instance to a new instance.

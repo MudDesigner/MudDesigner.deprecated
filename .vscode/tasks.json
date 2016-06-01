@@ -1,43 +1,43 @@
-{
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "0.1.0",
-    "command": "dotnet",
-    "isShellCommand": true,
-    "args": [],
-    "tasks": [
-        {
-            "taskName": "build",
-            "args": [ 
-                "Source/Runtime/MudDesigner.Engine", 
-                "Source/Runtime/MudDesigner.Adapters.Commanding",
-                "Source/Runtime/MudDesigner.Adapters.BasicRules",
-                "Source/Runtime/MudDesigner.Adapters.Server",
-                "Source/Tools/MudDesigner.ConsoleServer",
-                "Tests/Runtime/MudDesigner.Engine.Tests"
-                ],
-            "isBuildCommand": true,
-            "showOutput": "always",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "taskName": "restore",
-            "args": [ ],
-            "showOutput": "always",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "taskName": "run",
-            "args": [ "-p", "Source/Tools/MudDesigner.ConsoleServer" ],
-            "showOutput": "always",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "taskName": "test",
-            "args": [ "-p", "Tests/Runtime/MudDesigner.Engine.Tests" ],
-            "showOutput": "always",
-            "isTestCommand": true,
-            "problemMatcher": "$msCompile"
-        }
-    ]
-}
+    {
+        // See https://go.microsoft.com/fwlink/?LinkId=733558
+        // for the documentation about the tasks.json format
+        "version": "0.1.0",
+        "command": "dotnet",
+        "isShellCommand": true,
+        "args": [],
+        "tasks": [
+            {
+                "taskName": "build",
+                "args": [ 
+                    "Source/Runtime/MudDesigner.Engine", 
+                    "Source/Runtime/MudDesigner.Adapters.Commanding",
+                    "Source/Runtime/MudDesigner.Adapters.BasicRules",
+                    "Source/Runtime/MudDesigner.Adapters.Server",
+                    "Source/Tools/MudDesigner.ConsoleServer",
+                    "Tests/Runtime/MudDesigner.Engine.Tests"
+                    ],
+                "isBuildCommand": true,
+                "showOutput": "always",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "taskName": "restore",
+                "args": [ ],
+                "showOutput": "always",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "taskName": "run",
+                "args": [ "-p", "Source/Tools/MudDesigner.ConsoleServer" ],
+                "showOutput": "always",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "taskName": "test",
+                "args": [ "-p", "Tests/Runtime/MudDesigner.Engine.Tests" ],
+                "showOutput": "always",
+                "isTestCommand": true,
+                "problemMatcher": "$msCompile"
+            }
+        ]
+    }

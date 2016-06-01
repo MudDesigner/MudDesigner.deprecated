@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MudDesigner.Engine.Game.Tests
 {
@@ -8,8 +9,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Decrement_by_minute_removes_minutes_from_property()
         {
@@ -20,14 +19,12 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.DecrementByMinute(15);
 
             // Assert
-            Assert.AreEqual(15, timeOfDay.Minute, "The minute value was not set.");
+            timeOfDay.Minute.Should().Be(15, "the minute was decremented by 15, from 30 minutes.");
         }
 
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Decrement_by_minute_removes_hour_if_minute_reaches_zero()
         {
@@ -38,15 +35,12 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.DecrementByMinute(31);
 
             // Assert
-            Assert.AreEqual(59, timeOfDay.Minute, "The minute value was not set.");
-            Assert.AreEqual(4, timeOfDay.Hour, "The hour value was not set.");
+            timeOfDay.Should().Be(new TimeOfDay(4, 59), "the time of day was decremented by more minutes than than were available in the current hour. Hour should be decremented and the remainder deducted from the new hour.");
         }
 
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Decrement_by_hour_removes_hour_from_property()
         {
@@ -63,8 +57,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Decrement_by_hours_removes_changes_to_max_value_if_hour_reaches_zero()
         {
@@ -81,8 +73,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_by_minute_adds_minutes_to_property()
         {
@@ -99,8 +89,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Item_can_be_cloned()
         {
@@ -120,8 +108,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Items_to_string_value_formats_single_digits()
         {
@@ -138,8 +124,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Items_to_string_value_formats_single_digit_hour()
         {
@@ -156,8 +140,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_minute_over_60_increases_hour()
         {
@@ -175,8 +157,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_minute_over_a_hour_by_one_minute()
         {
@@ -194,8 +174,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_minute_over_60_increases_hour_and_adjusts_minute()
         {
@@ -213,8 +191,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_hour_adds_hours()
         {
@@ -231,8 +207,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_hour_beyond_hours_per_day_resets_hours()
         {
@@ -249,8 +223,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_hour_without_minutes_beyond_hours_per_day_resets_hours()
         {
@@ -267,8 +239,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Increment_hour_with_minutes_within_hours_per_day_does_not_reset_hours()
         {
@@ -285,8 +255,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Instancing_with_hour_and_minute_sets_properties()
         {
@@ -302,8 +270,6 @@ namespace MudDesigner.Engine.Game.Tests
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
-        [TestCategory("Engine Core")]
-        [TestCategory("Engine Core Environment")]
         [Owner("Johnathon Sullinger")]
         public void Instancing_with_hour_and_minute_and_hoursPerDay_sets_properties()
         {
