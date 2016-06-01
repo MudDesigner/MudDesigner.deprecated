@@ -35,7 +35,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.DecrementByMinute(31);
 
             // Assert
-            timeOfDay.Should().Be(new TimeOfDay(4, 59), "the time of day was decremented by more minutes than than were available in the current hour. Hour should be decremented and the remainder deducted from the new hour.");
+            timeOfDay.Should().Be(new TimeOfDay(4, 59), "the time of day was not equal to 4:59, after decrementing 31 minutes.");
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.DecrementByHour(2);
 
             // Assert
-            Assert.AreEqual(3, timeOfDay.Hour, "The hour value was not set.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(3, 30), "the time of day was not equal to 3:30.");
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.DecrementByHour(6);
 
             // Assert
-            Assert.AreEqual(23, timeOfDay.Hour, "The hour value was not set.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(23, 30, 24), "the time of day did not roll backwards into the previous day.");
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.IncrementByMinute(30);
 
             // Assert
-            Assert.AreEqual(30, timeOfDay.Minute, "The minute value was not set.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(0, 30), "the time was not 00:30 as expected");
         }
 
         [TestMethod]
@@ -93,16 +93,13 @@ namespace MudDesigner.Engine.Game.Tests
         public void Item_can_be_cloned()
         {
             // Arrange
-            var timeOfDay = new TimeOfDay(5, 30, 24);
+            var timeOfDay = new TimeOfDay(5, 30, 22);
 
             // Act
             var clone = timeOfDay.Clone();
 
             // Assert
-            Assert.AreNotEqual(timeOfDay, clone);
-            Assert.AreEqual(timeOfDay.Hour, clone.Hour);
-            Assert.AreEqual(timeOfDay.Minute, clone.Minute);
-            Assert.AreEqual(timeOfDay.HoursPerDay, clone.HoursPerDay);
+            clone.ShouldBeEquivalentTo(timeOfDay, "the original time of day was not cloned correctly.");
         }
 
         [TestMethod]
@@ -118,7 +115,7 @@ namespace MudDesigner.Engine.Game.Tests
             string time = timeOfDay.ToString();
 
             // Assert
-            Assert.AreEqual("05:05", time);
+            time.Should().Be($"0{timeOfDay.Hour}:0{timeOfDay.Minute}");
         }
 
         [TestMethod]
@@ -128,13 +125,45 @@ namespace MudDesigner.Engine.Game.Tests
         public void Items_to_string_value_formats_single_digit_hour()
         {
             // Arrange
+            var timeOfDay = new TimeOfDay(4, 15, 24);
+
+            // Act
+            string time = timeOfDay.ToString();
+
+            // Assert
+            time.Should().Be($"0{timeOfDay.Hour}:{timeOfDay.Minute}");
+        }
+
+        [TestMethod]
+        [TestCategory("MudDesigner")]
+        [TestCategory("Engine")]
+        [Owner("Johnathon Sullinger")]
+        public void Items_to_string_value_formats_single_digit_minute()
+        {
+            // Arrange
+            var timeOfDay = new TimeOfDay(12, 5, 24);
+
+            // Act
+            string time = timeOfDay.ToString();
+
+            // Assert
+            time.Should().Be($"{timeOfDay.Hour}:0{timeOfDay.Minute}");
+        }
+
+        [TestMethod]
+        [TestCategory("MudDesigner")]
+        [TestCategory("Engine")]
+        [Owner("Johnathon Sullinger")]
+        public void Items_to_string_value_formats_multi_digits()
+        {
+            // Arrange
             var timeOfDay = new TimeOfDay(15, 15, 24);
 
             // Act
             string time = timeOfDay.ToString();
 
             // Assert
-            Assert.AreEqual("15:15", time);
+            time.Should().Be($"{timeOfDay.Hour}:{timeOfDay.Minute}");
         }
 
         [TestMethod]
@@ -150,8 +179,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.IncrementByMinute(30);
 
             // Assert
-            Assert.AreEqual(0, timeOfDay.Minute, "The minute value was not set.");
-            Assert.AreEqual(6, timeOfDay.Hour, "The hour was not incremeneted when the minute reached 60.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(6, 0));
         }
 
         [TestMethod]
@@ -164,11 +192,10 @@ namespace MudDesigner.Engine.Game.Tests
             var timeOfDay = new TimeOfDay(5, 59);
 
             // Act
-            timeOfDay.IncrementByMinute(5);
+            timeOfDay.IncrementByMinute(1);
 
             // Assert
-            Assert.AreEqual(0, timeOfDay.Minute, "The minute value was not set.");
-            Assert.AreEqual(6, timeOfDay.Hour, "The hour was not incremeneted when the minute reached 60.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(6, 0));
         }
 
         [TestMethod]
@@ -184,8 +211,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.IncrementByMinute(31);
 
             // Assert
-            Assert.AreEqual(1, timeOfDay.Minute, "The minute value was not set.");
-            Assert.AreEqual(6, timeOfDay.Hour, "The hour was not incremeneted when the minute reached 60.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(6, 1));
         }
 
         [TestMethod]
@@ -201,7 +227,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.IncrementByHour(5);
 
             // Assert
-            Assert.AreEqual(10, timeOfDay.Hour, "Hour value was not set.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(10, 30));
         }
 
         [TestMethod]
@@ -217,7 +243,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.IncrementByHour(4);
 
             // Assert
-            Assert.AreEqual(0, timeOfDay.Hour, "Hour value was not set.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(0, 30, 24));
         }
 
         [TestMethod]
@@ -233,7 +259,7 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.IncrementByHour(4);
 
             // Assert
-            Assert.AreEqual(0, timeOfDay.Hour, "Hour value was not set.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(0, 0));
         }
 
         [TestMethod]
@@ -249,37 +275,20 @@ namespace MudDesigner.Engine.Game.Tests
             timeOfDay.IncrementByHour(3);
 
             // Assert
-            Assert.AreEqual(23, timeOfDay.Hour, "Hour value was not set.");
+            timeOfDay.ShouldBeEquivalentTo(new TimeOfDay(23, 59, 24));
         }
 
         [TestMethod]
         [TestCategory("MudDesigner")]
         [TestCategory("Engine")]
         [Owner("Johnathon Sullinger")]
-        public void Instancing_with_hour_and_minute_sets_properties()
-        {
-            // Act
-            var timeOfDay = new TimeOfDay(5, 30);
-
-            // Assert
-            Assert.AreEqual(30, timeOfDay.Minute, "The minute value was not set.");
-            Assert.AreEqual(5, timeOfDay.Hour, "The hour value was not set.");
-            Assert.IsTrue(timeOfDay.HoursPerDay > 0, "The hours per day was not assigned a default value.");
-        }
-
-        [TestMethod]
-        [TestCategory("MudDesigner")]
-        [TestCategory("Engine")]
-        [Owner("Johnathon Sullinger")]
-        public void Instancing_with_hour_and_minute_and_hoursPerDay_sets_properties()
+        public void Instancing_with_hours_per_day_assigns_value_to_property()
         {
             // Act
             var timeOfDay = new TimeOfDay(5, 30, 20);
 
             // Assert
-            Assert.AreEqual(30, timeOfDay.Minute, "The minute value was not set.");
-            Assert.AreEqual(5, timeOfDay.Hour, "The hour value was not set.");
-            Assert.AreEqual(20, timeOfDay.HoursPerDay, "The hours per day was not set.");
+            timeOfDay.HoursPerDay.Should().Be(20);
         }
     }
 }
