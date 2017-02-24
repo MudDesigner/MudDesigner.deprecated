@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyTitle>Mud Engine Game</AssemblyTitle>
+    <VersionPrefix>1.0.0-preview1</VersionPrefix>
+    <Authors>scionwest</Authors>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>MudDesigner.ConsoleServer</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>MudDesigner.ConsoleServer</PackageId>
+    <PackageTags>Game-Engine;game engine;gameengine;mud;multi-user-dungeon;mmo;mmorpg;game</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/muddesigner/mudengine</RepositoryUrl>
+    <RuntimeFrameworkVersion>1.0.3</RuntimeFrameworkVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Runtime\MudDesigner.Engine\MudDesigner.Engine.csproj" />
+    <ProjectReference Include="..\..\Runtime\MudDesigner.Adapters.Server\MudDesigner.Adapters.Server.csproj" />
+    <ProjectReference Include="..\..\Runtime\MudDesigner.Adapters.BasicRules\MudDesigner.Adapters.BasicRules.csproj" />
+  </ItemGroup>
+
+</Project>

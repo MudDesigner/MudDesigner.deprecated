@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{65CAB49E-6D15-4403-96AD-057AB1204675}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runtime", "Runtime", "{B7ED4F55-0E03-467D-9176-78FB39427393}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Engine", "Source\Runtime\MudDesigner.Engine\MudDesigner.Engine.xproj", "{74B1A90C-688F-4C8F-B122-17DF43429CAA}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Adapters.BasicRules", "Source\Runtime\MudDesigner.Adapters.BasicRules\MudDesigner.Adapters.BasicRules.xproj", "{F03D107E-292C-4FD7-9BDC-DA843996A7F9}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Adapters.Server", "Source\Runtime\MudDesigner.Adapters.Server\MudDesigner.Adapters.Server.xproj", "{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.ConsoleServer", "Source\Tools\MudDesigner.ConsoleServer\MudDesigner.ConsoleServer.xproj", "{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{44A7550D-8023-4DED-A6BF-C715F8278330}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{E7D5791F-A475-4414-B250-C1972A9015FA}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MudDesigner.Engine.Tests", "Tests\Runtime\MudDesigner.Engine.Tests\MudDesigner.Engine.Tests.xproj", "{FCDAC2C6-1F8D-4EBB-8168-23F88E078F9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runtime", "Runtime", "{70783A2A-7255-45DB-BF56-5506FDE9FD76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74B1A90C-688F-4C8F-B122-17DF43429CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74B1A90C-688F-4C8F-B122-17DF43429CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74B1A90C-688F-4C8F-B122-17DF43429CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74B1A90C-688F-4C8F-B122-17DF43429CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F03D107E-292C-4FD7-9BDC-DA843996A7F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F03D107E-292C-4FD7-9BDC-DA843996A7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F03D107E-292C-4FD7-9BDC-DA843996A7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F03D107E-292C-4FD7-9BDC-DA843996A7F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCDAC2C6-1F8D-4EBB-8168-23F88E078F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCDAC2C6-1F8D-4EBB-8168-23F88E078F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCDAC2C6-1F8D-4EBB-8168-23F88E078F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCDAC2C6-1F8D-4EBB-8168-23F88E078F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65CAB49E-6D15-4403-96AD-057AB1204675} = {E7D5791F-A475-4414-B250-C1972A9015FA}
+		{B7ED4F55-0E03-467D-9176-78FB39427393} = {E7D5791F-A475-4414-B250-C1972A9015FA}
+		{74B1A90C-688F-4C8F-B122-17DF43429CAA} = {B7ED4F55-0E03-467D-9176-78FB39427393}
+		{F03D107E-292C-4FD7-9BDC-DA843996A7F9} = {B7ED4F55-0E03-467D-9176-78FB39427393}
+		{258C8E1D-8115-4A89-8CEC-BE1E9F45C5C1} = {B7ED4F55-0E03-467D-9176-78FB39427393}
+		{0F9E5B57-3DC3-4A33-B957-DC1850E6F3E5} = {65CAB49E-6D15-4403-96AD-057AB1204675}
+		{FCDAC2C6-1F8D-4EBB-8168-23F88E078F9C} = {70783A2A-7255-45DB-BF56-5506FDE9FD76}
+		{70783A2A-7255-45DB-BF56-5506FDE9FD76} = {44A7550D-8023-4DED-A6BF-C715F8278330}
+	EndGlobalSection
+EndGlobal
