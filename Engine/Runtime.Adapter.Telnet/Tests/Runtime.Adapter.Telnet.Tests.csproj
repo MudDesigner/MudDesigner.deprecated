@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>    
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netcoreapp1.0</TargetFramework>    
+    <RootNamespace>MudDesigner.Runtime.Adapter.Telnet</RootNamespace>    
+    <AssemblyName>MudDesigner.Runtime.Adapter.Telnet.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

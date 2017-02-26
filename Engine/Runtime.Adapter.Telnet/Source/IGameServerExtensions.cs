@@ -1,16 +1,17 @@
-﻿using MudDesigner.Runtime.Networking;
+﻿using MudDesigner.Runtime.Game;
+using MudDesigner.Runtime.Networking;
 using System;
 
 namespace MudDesigner.Runtime.Adapter.Telnet
 {
     public static class IGameServerExtensions
     {
-        public static IServer AddTelnetServer(this IGame game, Action<IServerConfiguration> configuration = null)
+        public static IServer AddTelnetServer(this IGame game, Action<IServerConfiguration> configuration = null) 
         {
             var serverConfig = new ServerConfiguration();
 
             configuration?.Invoke(serverConfig);
-            var server = new TelnetServer(game, serverConfig);
+            var server = new TelnetServer(game, serverConfig, null);
 
             game.UseAdapter(server);
 

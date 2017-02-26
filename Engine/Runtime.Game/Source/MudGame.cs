@@ -9,10 +9,10 @@ namespace MudDesigner.Runtime
     {
         private List<IAdapter> adapters = new List<IAdapter>();
 
-        public MudGame(MudGameConfiguration gameConfiguration, IMessageBroker messageBroker = null)
+        public MudGame(MudGameConfiguration gameConfiguration, IMessageBrokerFactory brokerFactory)
         {
             this.Configuration = gameConfiguration;
-            this.MessageBroker = messageBroker ?? MessageBrokerFactory.Instance;
+            this.MessageBroker = brokerFactory.CreateBroker();
         }
 
         public event Func<GameState, Task> OnStateChanged;
@@ -63,12 +63,12 @@ namespace MudDesigner.Runtime
             this.SetState(GameState.Starting);
             foreach (IAdapter adapter in this.adapters)
             {
-                await adapter.Run(this);
+                await adapter.Initialize();
             }
 
             if (this.State != GameState.Starting)
             {
-                // Something aborted our starting state, so don't start the game loop.
+                await this.StopAsync();
                 return;
             }
 
@@ -79,16 +79,20 @@ namespace MudDesigner.Runtime
             }
         }
 
-        public Task StopAsync()
+        public async Task StopAsync()
         {
             this.SetState(GameState.Stopping);
+            foreach(IAdapter adapter in this.adapters)
+            {
+                await adapter.Delete();
+            }
+
             this.SetState(GameState.Stopped);
-            return Task.CompletedTask;
         }
 
         private async Task UpdateComponents()
         {
-            foreach (IComponent component in this.adapters)
+            foreach (IAdapter component in this.adapters)
             {
                 await component.Update(this);
             }

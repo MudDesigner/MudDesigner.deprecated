@@ -2,6 +2,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MudDesigner.Runtime.Networking;
+using Runtime.Adapter.Telnet.Tests.Fakes;
 
 namespace MudDesigner.Runtime.Adapter.Telnet
 {

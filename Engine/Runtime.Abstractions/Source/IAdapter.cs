@@ -2,10 +2,8 @@
 
 namespace MudDesigner.Runtime
 {
-    public interface IAdapter : IDescriptor, IConfigurable
+    public interface IAdapter : IDescriptor, IConfigurable, IInitializable
     {
-        Task Run(IGame game);
-
         Task Update(IGame game);
     }
 }

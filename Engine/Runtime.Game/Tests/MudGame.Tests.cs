@@ -23,9 +23,10 @@ namespace MudDesigner.Runtime.Tests
         {
             // Arrange
             IGame game = null;
+            IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>();
 
             // Act
-            game = new MudGame(this.gameConfiguration);
+            game = new MudGame(this.gameConfiguration, brokerFactory);
 
             // Assert
             Assert.IsTrue(game.Configuration is MudGameConfiguration);
@@ -39,7 +40,8 @@ namespace MudDesigner.Runtime.Tests
         public async Task ConfigureInvokesAdapterConfiguration()
         {
             // Arrange
-            IGame game = new MudGame(this.gameConfiguration);
+            IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>(brokerMock => brokerMock.CreateBroker() == Mock.Of<IMessageBroker>());
+            IGame game = new MudGame(this.gameConfiguration, brokerFactory);
             var mock = new Mock<IAdapter>();
             game.UseAdapter(mock.Object);
 
@@ -54,10 +56,11 @@ namespace MudDesigner.Runtime.Tests
         public async Task StartAsyncRunsSuppliedAdapters()
         {
             // Arrange
-            IGame game = new MudGame(this.gameConfiguration);
+            IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>(brokerMock => brokerMock.CreateBroker() == Mock.Of<IMessageBroker>());
+            IGame game = new MudGame(this.gameConfiguration, brokerFactory);
             var mock = new Mock<IAdapter>();
-            mock.Setup(mockAdapter => mockAdapter.Run(It.IsAny<IGame>()))
-                .Callback<IGame>(async (runningGame) => await game.StopAsync())
+            mock.Setup(mockAdapter => mockAdapter.Initialize())
+                .Callback(async () => await game.StopAsync())
                 .Returns(() => Task.CompletedTask);
 
             game.UseAdapter(mock.Object);
@@ -65,21 +68,19 @@ namespace MudDesigner.Runtime.Tests
             // Act
             // We don't await so that the test doesn't hang in the event a bug is introduced and the
             // test never stops the game loop.
-#pragma warning disable 4014
-            // Disables the warning about not await this call.
             await game.StartAsync();
-#pragma warning restore 4014
 
             // Assert
             Assert.AreEqual(GameState.Stopped, game.State, "The game was never stopped.");
-            mock.Verify(mockAdapter => mockAdapter.Run(It.IsAny<IGame>()), Times.Exactly(1), "The game never ran the adapter.");
+            mock.Verify(mockAdapter => mockAdapter.Initialize(), Times.Exactly(1), "The game never ran the adapter.");
         }
 
         [TestMethod]
         public async Task StartAsyncCancelsWhenStopIsCalled()
         {
             // Arrange
-            IGame game = new MudGame(this.gameConfiguration);
+            IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>();
+            IGame game = new MudGame(this.gameConfiguration, brokerFactory);
             game.OnStateChanged += async (state) =>
             {
                 if (state == GameState.Running)
