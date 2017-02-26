@@ -10,7 +10,7 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         public int Port { get; set; } = 23;
         public int MaxQueuedConnections { get; set; } = 10;
         public ISecurityPolicy PasswordPolicy { get; set; }
-        public int PreferredBufferSize { get; set; } = 1024;
+        public int PreferredBufferSize { get; set; } = 4096;
         public string[] MessageOfTheDay { get; set; }
         public string ConnectedMessage { get; set; }
         public IPAddress HostAddress { get; set; } = IPAddress.Loopback;

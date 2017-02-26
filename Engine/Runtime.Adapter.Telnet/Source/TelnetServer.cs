@@ -70,7 +70,7 @@ namespace MudDesigner.Runtime.Adapter.Telnet
 
         public Task Update(IGame game)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public async Task Delete()

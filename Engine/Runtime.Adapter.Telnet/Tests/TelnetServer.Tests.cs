@@ -54,5 +54,23 @@ namespace MudDesigner.Runtime.Adapter.Telnet
             // Assert
             testContext.ServerContextMock.Verify(mock => mock.Delete(), Times.Exactly(1), "Server context was not deleted with the server.");
         }
+
+        [TestMethod]
+        public async Task ServerBroadcastsReceivedData()
+        {
+            // Arrange
+            const string receivedMessage = "Hello from context";
+            var serverContextMock = new Mock<IServerContext>();
+            TelnetServerTestContext testContext = TelnetServerTestContext.CreateTestContext(serverContextMock);
+            IServer server = testContext.Server;
+            await server.Configure();
+
+            // Act
+            await server.Initialize();
+            serverContextMock.Raise(mock => mock.MessageReceived += null, receivedMessage);
+
+            // Assert
+            testContext.ServerContextMock.Verify(mock => mock.Delete(), Times.Exactly(1), "Server context was not deleted with the server.");
+        }
     }
 }
