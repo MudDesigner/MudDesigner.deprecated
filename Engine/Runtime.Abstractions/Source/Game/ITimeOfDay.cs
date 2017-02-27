@@ -1,17 +1,13 @@
 ﻿namespace MudDesigner.Runtime.Game
 {
-    public interface ITimeOfDay : ICloneableComponent<ITimeOfDay>
+    public interface ITimeOfDay
     {
         int Hour { get; }
 
         int Minute { get; }
 
-        void AddHours(int hours);
+        int Second { get; }
 
-        void AddMinutes(int minutes);
-
-        void SubtractHours(int hours);
-
-        void SubtractMinutes(int minutes);
+        int Millisecond { get; }
     }
 }

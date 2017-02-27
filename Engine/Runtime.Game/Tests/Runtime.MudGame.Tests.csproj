@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime.Abstractions\Source\Runtime.Abstractions.csproj" />
-    <ProjectReference Include="..\Source\Runtime.Game.csproj" />
+    <ProjectReference Include="..\Source\Runtime.MudGame.csproj" />
   </ItemGroup>
 
   <ItemGroup>

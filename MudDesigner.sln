@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Abstractions", "Abstraction
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{28854D35-36F6-405B-900D-FA9D8A68B870}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runtime.Game", "Engine\Runtime.Game\Source\Runtime.Game.csproj", "{4B74217D-1454-4CDE-8EDC-3DB7426A7C49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Runtime.MudGame", "Engine\Runtime.Game\Source\Runtime.MudGame.csproj", "{4B74217D-1454-4CDE-8EDC-3DB7426A7C49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runtime.Game.Tests", "Engine\Runtime.Game\Tests\Runtime.Game.Tests.csproj", "{19FACD74-7EFD-484E-B3F0-4CC98E222F6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runtime.MudGame.Tests", "Engine\Runtime.Game\Tests\Runtime.MudGame.Tests.csproj", "{19FACD74-7EFD-484E-B3F0-4CC98E222F6B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapter.Telnet", "Adapter.Telnet", "{57CB3913-BC78-4AC6-9113-C5086686E52B}"
 EndProject

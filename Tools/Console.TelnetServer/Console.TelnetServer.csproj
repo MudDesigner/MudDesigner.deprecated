@@ -8,7 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Engine\Runtime.Abstractions\Source\Runtime.Abstractions.csproj" />
     <ProjectReference Include="..\..\Engine\Runtime.Adapter.Telnet\Source\Runtime.Adapter.Telnet.csproj" />
-    <ProjectReference Include="..\..\Engine\Runtime.Game\Source\Runtime.Game.csproj" />
+    <ProjectReference Include="..\..\Engine\Runtime.Game\Source\Runtime.MudGame.csproj" />
   </ItemGroup>
 
 </Project>
