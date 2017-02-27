@@ -4,8 +4,13 @@ namespace MudDesigner.Runtime.Game
 {
     public class MudUniverseClock : IUniverseClock
     {
+        private const int _minutesPerHour = 60;
+        private const int _secondsPerMinute = 60;
+        private const int _millisecondsPerSecond = 10000;
+
         private IStopwatch stopwatch;
         private ITimeOfDayFactory timeOfDayFactory;
+        private ISubscription universeTImeRequestSubscription;
 
         public MudUniverseClock(int hoursPerDay, IStopwatch stopwatch, ITimeOfDayFactory timeOfDayFactory, IMessageBrokerFactory brokerFactory)
         {
@@ -16,6 +21,9 @@ namespace MudDesigner.Runtime.Game
             this.HoursPerDay = hoursPerDay;
 
             this.CalendarDayToRealHourRatio = 0.5;
+
+            this.universeTImeRequestSubscription = this.MessageBroker.Subscribe<RequestUniverseTimeMessage>(
+                (msg, sub) => this.MessageBroker.Publish(new CurrentUniverseTimeMessage(this.GetCurrentUniverseTime())));
         }
 
         public IMessageBroker MessageBroker { get; }
@@ -37,15 +45,17 @@ namespace MudDesigner.Runtime.Game
         public Task Delete()
         {
             this.stopwatch.Stop();
+            this.universeTImeRequestSubscription.Unsubscribe();
+
             return Task.CompletedTask;
         }
 
         public ITimeOfDay GetCurrentUniverseTime()
         {
-            int hoursIntoCurrentDay = this.stopwatch.GetHours() % this.HoursPerDay;
-            int minutesIntoCurrentHour = this.stopwatch.GetMinutes();
-            int secondsIntoCurrentMinute = this.stopwatch.GetSeconds();
-            int millisecondsIntoCurrentSecond = this.stopwatch.GetMilliseconds();
+            int hoursIntoCurrentDay = (int)this.stopwatch.GetHours() % this.HoursPerDay;
+            int minutesIntoCurrentHour = (int)this.stopwatch.GetMinutes() % _minutesPerHour;
+            int secondsIntoCurrentMinute = (int)this.stopwatch.GetSeconds() % _secondsPerMinute;
+            int millisecondsIntoCurrentSecond = (int)this.stopwatch.GetMilliseconds() % _millisecondsPerSecond;
 
             return this.timeOfDayFactory.Create(
                 hoursIntoCurrentDay,

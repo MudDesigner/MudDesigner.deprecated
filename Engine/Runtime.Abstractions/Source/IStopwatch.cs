@@ -8,12 +8,12 @@
 
         void Reset();
 
-        int GetHours();
+        long GetHours();
 
-        int GetMinutes();
+        long GetMinutes();
 
-        int GetSeconds();
+        long GetSeconds();
 
-        int GetMilliseconds();
+        long GetMilliseconds();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MudDesigner.Runtime.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,6 +35,9 @@ namespace MudDesigner.Runtime
             {
                 await adapter.Configure();
             }
+
+            this.MessageBroker.Subscribe<CurrentUniverseTimeMessage>(
+                (msg, sub) => { });
 
             this.SetState(GameState.Configured);
         }

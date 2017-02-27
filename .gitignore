@@ -234,3 +234,6 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/old/Source_project_json/.vscode
+/old/Source_project_json/.vscode/tasks.json
+/old/Source_project_json/.vscode/launch.json
