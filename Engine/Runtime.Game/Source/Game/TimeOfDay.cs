@@ -38,5 +38,8 @@
         public int Second { get; }
 
         public int Millisecond { get; }
+
+        public override string ToString()
+            => $"{(this.Hour < 10 ? "0" + this.Hour.ToString() : this.Hour.ToString())}:{(this.Minute < 10 ? "0" + this.Minute.ToString() : this.Minute.ToString())}:{(this.Second < 10 ? "0" + this.Second.ToString() : this.Second.ToString())}.{(this.Millisecond < 10 ? "0" + this.Millisecond.ToString() : this.Millisecond.ToString())}";
     }
 }

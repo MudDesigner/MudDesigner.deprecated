@@ -1,7 +1,6 @@
 ﻿using MudDesigner.Runtime;
 using MudDesigner.Runtime.Adapter.Telnet;
 using MudDesigner.Runtime.Game;
-using MudDesigner.Runtime.Networking;
 using System;
 using System.Threading.Tasks;
 
@@ -38,9 +37,9 @@ namespace MudDesigner.Tools.TelnetServerApp
             await this.clock.Initialize();
         }
 
-        public Task Update(IGame game)
+        public async Task Update(IGame game)
         {
-            return Task.CompletedTask;
+            await this.clock.Update(game);
         }
     }
     class Program
@@ -73,6 +72,9 @@ namespace MudDesigner.Tools.TelnetServerApp
             // Time Manager setup
             IUniverseClock clock = new MudUniverseClock(24, new OffsetableStopwatch(), new TimeOfDayFactory(), brokerFactory);
             var timeManager = new TimeManager(brokerFactory, clock);
+
+            IMessageBroker broker = brokerFactory.CreateBroker();
+            broker.Subscribe<CurrentUniverseTimeMessage>((msg, sub) => /*Console.WriteLine(msg.CurrentTime)*/{ });
 
             game.UseAdapters(server, timeManager);
             await game.Configure();

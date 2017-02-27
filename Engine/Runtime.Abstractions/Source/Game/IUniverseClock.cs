@@ -1,6 +1,6 @@
 ﻿namespace MudDesigner.Runtime.Game
 {
-    public interface IUniverseClock : IInitializable
+    public interface IUniverseClock : IInitializable, IComponent
     {
         int HoursPerDay { get; }
 

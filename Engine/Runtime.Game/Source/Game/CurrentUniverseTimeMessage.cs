@@ -8,7 +8,9 @@ namespace MudDesigner.Runtime.Game
     {
         public CurrentUniverseTimeMessage(ITimeOfDay universeTime) => this.CurrentTime = universeTime;
 
-        public ITimeOfDay CurrentTime { get; }
+        public ITimeOfDay CurrentTime { get; private set; }
+
+        public void SetCurrentTime(ITimeOfDay timeOfDay) => this.CurrentTime = timeOfDay;
 
         public object GetContent() => this.CurrentTime;
     }
