@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime.Game
@@ -79,6 +80,16 @@ namespace MudDesigner.Runtime.Game
         public ITimeOfDay GetUniverseTime()
         {
             return this.universeClock.GetCurrentUniverseTime();
+        }
+
+        public IDateTime GetLocalDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDateTime GetUniverseDateTime()
+        {
+            throw new NotImplementedException();
         }
     }
 }

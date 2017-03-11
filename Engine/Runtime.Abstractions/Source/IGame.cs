@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MudDesigner.Runtime.Game;
+using System;
 using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime
@@ -8,6 +9,8 @@ namespace MudDesigner.Runtime
         event Func<GameState, Task> OnStateChanged;
 
         IGameConfiguration Configuration { get; }
+
+        IUniverseClock UniverseClock { get; }
 
         GameState State { get; }
 

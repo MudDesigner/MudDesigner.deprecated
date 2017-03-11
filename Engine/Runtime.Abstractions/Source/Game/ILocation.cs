@@ -11,19 +11,6 @@ namespace MudDesigner.Runtime.Game
 
         ICalendar Calendar { get; set; }
 
-        IWeatherState CurrentWeather { get; }
-
-        /// <summary>
-        /// How often in minutes within the game world the game will update the weather state.
-        /// </summary>
-        int WeatherUpdateFrequency { get; }
-
-        IEnumerable<IWeatherState> GetWeatherStates();
-
-        Task AddWeatherState(IWeatherState weatherState);
-
-        Task RemoveWeatherState(IWeatherState weatherState);
-
         IEnumerable<ILocation> GetChildrenLocations();
 
         Task AddLocation(ILocation location);

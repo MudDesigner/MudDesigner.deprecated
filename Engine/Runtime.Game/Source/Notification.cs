@@ -2,7 +2,7 @@
 
 namespace MudDesigner.Runtime
 {
-    class Notification<TMessage> : INotification<TMessage> where TMessage : class, IMessage
+    class Notification<TMessage> : INotification<TMessage> where TMessage : IMessage
     {
         /// <summary>
         /// The callbacks invoked when the handler processes the messages.

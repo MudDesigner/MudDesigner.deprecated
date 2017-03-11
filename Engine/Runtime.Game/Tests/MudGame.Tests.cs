@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MudDesigner.Runtime.Game;
 using System;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace MudDesigner.Runtime.Tests
             IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>();
 
             // Act
-            game = new MudGame(this.gameConfiguration, brokerFactory);
+            game = new MudGame(this.gameConfiguration, Mock.Of<IUniverseClock>(), brokerFactory);
 
             // Assert
             Assert.IsTrue(game.Configuration is MudGameConfiguration);
@@ -41,7 +42,7 @@ namespace MudDesigner.Runtime.Tests
         {
             // Arrange
             IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>(brokerMock => brokerMock.CreateBroker() == Mock.Of<IMessageBroker>());
-            IGame game = new MudGame(this.gameConfiguration, brokerFactory);
+            IGame game = new MudGame(this.gameConfiguration, Mock.Of<IUniverseClock>(), brokerFactory);
             var mock = new Mock<IAdapter>();
             game.UseAdapter(mock.Object);
 
@@ -57,7 +58,7 @@ namespace MudDesigner.Runtime.Tests
         {
             // Arrange
             IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>(brokerMock => brokerMock.CreateBroker() == Mock.Of<IMessageBroker>());
-            IGame game = new MudGame(this.gameConfiguration, brokerFactory);
+            IGame game = new MudGame(this.gameConfiguration, Mock.Of<IUniverseClock>(), brokerFactory);
             var mock = new Mock<IAdapter>();
             mock.Setup(mockAdapter => mockAdapter.Initialize())
                 .Callback(async () => await game.StopAsync())
@@ -80,7 +81,7 @@ namespace MudDesigner.Runtime.Tests
         {
             // Arrange
             IMessageBrokerFactory brokerFactory = Mock.Of<IMessageBrokerFactory>();
-            IGame game = new MudGame(this.gameConfiguration, brokerFactory);
+            IGame game = new MudGame(this.gameConfiguration, Mock.Of<IUniverseClock>(), brokerFactory);
             game.OnStateChanged += async (state) =>
             {
                 if (state == GameState.Running)

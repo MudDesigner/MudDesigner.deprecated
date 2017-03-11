@@ -4,7 +4,7 @@
     /// Provides methods for dispatching notifications to subscription handlers
     /// </summary>
     /// <typeparam name="TMessageType">The type of the message type.</typeparam>
-    public abstract class MessageBase<TContentType> : IMessage<TContentType> where TContentType : class
+    public abstract class MessageBase<TContentType> : IMessage<TContentType>
     {
         /// <summary>
         /// Gets the content of the message.

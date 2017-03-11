@@ -6,7 +6,7 @@ namespace MudDesigner.Runtime
     /// Processes a subscription message.
     /// </summary>
     /// <typeparam name="TMessageType">The type of the message type.</typeparam>
-    public interface INotification<TMessageType> : ISubscription where TMessageType : class, IMessage
+    public interface INotification<TMessageType> : ISubscription where TMessageType : IMessage
     {
         /// <summary>
         /// Registers the specified action for callback when a notification is fired for T.

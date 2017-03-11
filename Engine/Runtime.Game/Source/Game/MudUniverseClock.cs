@@ -90,8 +90,7 @@ namespace MudDesigner.Runtime.Game
             long difference = currentMilliseconds - this.lastMillisecondCheck;
             if (difference >= _minimumMillisecondsToPublishUpdates)
             {
-                this.timeUpdatedMessage.SetCurrentTime(this.GetCurrentUniverseTime());
-                this.MessageBroker.Publish(this.timeUpdatedMessage);
+                this.MessageBroker.Publish(new CurrentUniverseTimeMessage(this.GetCurrentUniverseTime()));
                 this.lastMillisecondCheck = currentMilliseconds;
             }
 

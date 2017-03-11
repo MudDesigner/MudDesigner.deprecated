@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Runtime.Abstractions\Source\Runtime.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Game\NewFolder\" />
+  </ItemGroup>
+
 </Project>

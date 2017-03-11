@@ -25,7 +25,7 @@ namespace MudDesigner.Runtime
         /// </summary>
         /// <typeparam name="TMessageType">A concrete implementation of IMessage</typeparam>
         /// <returns></returns>
-        public ISubscription Subscribe<TMessageType>(Action<TMessageType, ISubscription> callback, Func<TMessageType, bool> condition = null) where TMessageType : class, IMessage
+        public ISubscription Subscribe<TMessageType>(Action<TMessageType, ISubscription> callback, Func<TMessageType, bool> condition = null) where TMessageType : IMessage
         {
             if (callback == null)
             {
@@ -60,7 +60,7 @@ namespace MudDesigner.Runtime
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="message">The message.</param>
-        public void Publish<T>(T message) where T : class, IMessage
+        public void Publish<T>(T message) where T : IMessage
         {
             if (message == null)
             {

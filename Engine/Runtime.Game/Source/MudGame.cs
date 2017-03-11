@@ -10,15 +10,18 @@ namespace MudDesigner.Runtime
     {
         private List<IAdapter> adapters = new List<IAdapter>();
 
-        public MudGame(MudGameConfiguration gameConfiguration, IMessageBrokerFactory brokerFactory)
+        public MudGame(MudGameConfiguration gameConfiguration, IUniverseClock universeClock, IMessageBrokerFactory brokerFactory)
         {
             this.Configuration = gameConfiguration;
             this.MessageBroker = brokerFactory.CreateBroker();
+            this.UniverseClock = universeClock;
         }
 
         public event Func<GameState, Task> OnStateChanged;
 
         public IMessageBroker MessageBroker { get;  }
+
+        public IUniverseClock UniverseClock { get; }
 
         public GameState State { get; private set; }
 

@@ -54,13 +54,17 @@ namespace MudDesigner.Tools.TelnetServerApp
         {
             IMessageBrokerFactory brokerFactory = new SingletonMessageBrokerFactory();
 
+            // Time Manager setup
+            IUniverseClock clock = new MudUniverseClock(24, new OffsetableStopwatch(), new TimeOfDayFactory(), brokerFactory);
+            var timeManager = new TimeManager(brokerFactory, clock);
+
             // Setup the game
             var gameConfig = new MudGameConfiguration
             {
                 Name = "Sample Game",
                 Description = "Test game to demonstrate the telnet server"
             };
-            var game = new MudGame(gameConfig, brokerFactory);
+            var game = new MudGame(gameConfig, clock, brokerFactory);
 
             // Setup the server
             var serverConfig = new ServerConfiguration
@@ -69,12 +73,8 @@ namespace MudDesigner.Tools.TelnetServerApp
             };
             var server = new TelnetServer(game, serverConfig, null);
 
-            // Time Manager setup
-            IUniverseClock clock = new MudUniverseClock(24, new OffsetableStopwatch(), new TimeOfDayFactory(), brokerFactory);
-            var timeManager = new TimeManager(brokerFactory, clock);
-
             IMessageBroker broker = brokerFactory.CreateBroker();
-            broker.Subscribe<CurrentUniverseTimeMessage>((msg, sub) => /*Console.WriteLine(msg.CurrentTime)*/{ });
+            broker.Subscribe<CurrentUniverseTimeMessage>((msg, sub) => Console.WriteLine(msg.CurrentTime));
 
             game.UseAdapters(server, timeManager);
             await game.Configure();

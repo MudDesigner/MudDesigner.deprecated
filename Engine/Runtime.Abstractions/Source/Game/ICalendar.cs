@@ -19,6 +19,10 @@ namespace MudDesigner.Runtime.Game
 
         ITimeOfDay GetLocalTime();
 
+        IDateTime GetLocalDateTime(); 
+
         ITimeOfDay GetUniverseTime();
+
+        IDateTime GetUniverseDateTime();
     }
 }

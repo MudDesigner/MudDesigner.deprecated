@@ -14,13 +14,13 @@ namespace MudDesigner.Runtime
         /// <typeparam name="TMessageType">An IMessage implementation that the given handler will be provided when messages are dispatched</typeparam>
         /// <param name="handler">The handler used to process incoming messages.</param>
         /// <returns>Returns an ISubscription that can be used to unsubscribe.</returns>
-        ISubscription Subscribe<TMessageType>(Action<TMessageType, ISubscription> callback, Func<TMessageType, bool> condition = null) where TMessageType : class, IMessage;
+        ISubscription Subscribe<TMessageType>(Action<TMessageType, ISubscription> callback, Func<TMessageType, bool> condition = null) where TMessageType : IMessage;
 
         /// <summary>
         /// Publishes the specified message.
         /// </summary>
         /// <typeparam name="TMessageType"></typeparam>
         /// <param name="message">The message.</param>
-        void Publish<TMessageType>(TMessageType message) where TMessageType : class, IMessage;
+        void Publish<TMessageType>(TMessageType message) where TMessageType : IMessage;
     }
 }
