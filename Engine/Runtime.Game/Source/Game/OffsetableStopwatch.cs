@@ -26,7 +26,7 @@ namespace MudDesigner.Runtime.Game
 
         public void Stop() => this.internalStopwatch.Stop();
 
-        public long GetHours()
+        public ulong GetHours()
         {
             TimeSpan elapsedTime = internalStopwatch.Elapsed;
             if (this.elapsedOffset.HasValue)
@@ -34,10 +34,10 @@ namespace MudDesigner.Runtime.Game
                 elapsedOffset += this.elapsedOffset.Value;
             }
 
-            return (long)elapsedTime.TotalHours;
+            return (ulong)elapsedTime.TotalHours;
         }
 
-        public long GetMinutes()
+        public ulong GetMinutes()
         {
             TimeSpan elapsedTime = internalStopwatch.Elapsed;
             if (this.elapsedOffset.HasValue)
@@ -45,10 +45,10 @@ namespace MudDesigner.Runtime.Game
                 elapsedTime += this.elapsedOffset.Value;
             }
 
-            return (long)elapsedTime.TotalMinutes;
+            return (ulong)elapsedTime.TotalMinutes;
         }
 
-        public long GetSeconds()
+        public ulong GetSeconds()
         {
             TimeSpan elapsedTime = internalStopwatch.Elapsed;
             if (this.elapsedOffset.HasValue)
@@ -56,10 +56,10 @@ namespace MudDesigner.Runtime.Game
                 elapsedTime += this.elapsedOffset.Value;
             }
 
-            return (long)elapsedTime.TotalSeconds;
+            return (ulong)elapsedTime.TotalSeconds;
         }
 
-        public long GetMilliseconds()
+        public ulong GetMilliseconds()
         {
             TimeSpan elapsedTime = internalStopwatch.Elapsed;
             if (this.elapsedOffset.HasValue)
@@ -67,7 +67,7 @@ namespace MudDesigner.Runtime.Game
                 elapsedTime += this.elapsedOffset.Value;
             }
 
-            return (long)Math.Floor(elapsedTime.TotalMilliseconds);
+            return (ulong)Math.Floor(elapsedTime.TotalMilliseconds);
         }
     }
 }

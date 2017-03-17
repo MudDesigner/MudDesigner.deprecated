@@ -24,7 +24,7 @@
 
         public TimeOfDay(IUniverseClock universeClock, ITimeOfDay timezoneOffset)
         {
-            ITimeOfDay universeTime = universeClock.GetCurrentUniverseTime();
+            ITimeOfDay universeTime = universeClock.GetUniverseDateTime().Time;
             this.Hour = universeTime.Hour - timezoneOffset.Hour;
             this.Minute = universeTime.Hour - timezoneOffset.Minute;
             this.Second = universeTime.Hour - timezoneOffset.Second;

@@ -67,7 +67,7 @@ namespace MudDesigner.Runtime.Game
         public Task Update(IGame game)
         {
             IUniverseClock currentClock = game.UniverseClock;
-            ITimeOfDay currentTime = currentClock.GetCurrentUniverseTime();
+            ulong universeAge = currentClock.GetUniverseAgeAsMilliseconds();
             
             // TODO: Determine if enough time has passed since we last checked the weather
 

@@ -55,7 +55,7 @@ namespace MudDesigner.Tools.TelnetServerApp
             IMessageBrokerFactory brokerFactory = new SingletonMessageBrokerFactory();
 
             // Time Manager setup
-            IUniverseClock clock = new MudUniverseClock(24, new OffsetableStopwatch(), new TimeOfDayFactory(), brokerFactory);
+            IUniverseClock clock = new MudUniverseClock(new DateTimeFactory(), new OffsetableStopwatch(), brokerFactory);
             var timeManager = new TimeManager(brokerFactory, clock);
 
             // Setup the game

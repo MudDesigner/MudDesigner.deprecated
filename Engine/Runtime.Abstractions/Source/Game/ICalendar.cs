@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MudDesigner.Runtime.Game
 {
     public interface ICalendar : IInitializable
     {
+        double GetRealworldToGameWorldRatio();
+
         ITimeOfDay TimeZoneOffset { get; }
 
         IEnumerable<ITimePeriod> GetTimePeriods();
@@ -17,11 +16,7 @@ namespace MudDesigner.Runtime.Game
 
         void ApplyTimeZoneOffset(ITimeOfDay offsetTime);
 
-        ITimeOfDay GetLocalTime();
-
-        IDateTime GetLocalDateTime(); 
-
-        ITimeOfDay GetUniverseTime();
+        IDateTime GetLocalDateTime();
 
         IDateTime GetUniverseDateTime();
     }

@@ -7,10 +7,10 @@ namespace MudDesigner.Runtime.Game
     public class MudCalendar : ICalendar
     {
         private List<ITimePeriod> timePeriods;
-        private ITimeOfDayFactory timeOfDayFactory;
+        private IDateTimeFactory timeOfDayFactory;
         private IUniverseClock universeClock;
 
-        public MudCalendar(IUniverseClock universeClock, IEnumerable<ITimePeriod> timePeriodsForCalendar, IMessageBrokerFactory brokerFactory, ITimeOfDayFactory timeOfDayFactory)
+        public MudCalendar(IUniverseClock universeClock, IEnumerable<ITimePeriod> timePeriodsForCalendar, IMessageBrokerFactory brokerFactory, IDateTimeFactory timeOfDayFactory)
         {
             this.MessageBroker = brokerFactory.CreateBroker();
             this.timeOfDayFactory = timeOfDayFactory;
@@ -18,7 +18,7 @@ namespace MudDesigner.Runtime.Game
 
             this.universeClock = universeClock;
             this.CalendarDayToRealHourRatio = 0.5;
-            this.TimeZoneOffset = this.timeOfDayFactory.Create(0, 0, 0, 0);
+            this.TimeZoneOffset = this.timeOfDayFactory.CreateTimeOfDay(0, 0, 0, 0);
             this.HoursPerDay = 24;
         }
 
@@ -67,27 +67,23 @@ namespace MudDesigner.Runtime.Game
             return this.timePeriods;
         }
 
-        public ITimeOfDay GetLocalTime()
+        public IDateTime GetLocalDateTime()
         {
             if (this.TimeZoneOffset == default(ITimeOfDay))
             {
-                return this.universeClock.GetCurrentUniverseTime();
+                return this.universeClock.GetUniverseDateTime();
             }
 
-            return this.timeOfDayFactory.Create(this.universeClock, this.TimeZoneOffset);
-        }
-
-        public ITimeOfDay GetUniverseTime()
-        {
-            return this.universeClock.GetCurrentUniverseTime();
-        }
-
-        public IDateTime GetLocalDateTime()
-        {
             throw new NotImplementedException();
+            //return this.timeOfDayFactory.CreateTimeOfDay(this.universeClock, this.TimeZoneOffset);
         }
 
         public IDateTime GetUniverseDateTime()
+        {
+            return this.universeClock.GetUniverseDateTime();
+        }
+
+        public double GetRealworldToGameWorldRatio()
         {
             throw new NotImplementedException();
         }

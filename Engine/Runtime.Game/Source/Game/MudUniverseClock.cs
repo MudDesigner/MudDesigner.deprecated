@@ -5,36 +5,27 @@ namespace MudDesigner.Runtime.Game
 {
     public class MudUniverseClock : IUniverseClock
     {
+        private const int _hoursPerDay = 24;
+        private const int _daysPerYear = 365;
         private const int _minutesPerHour = 60;
         private const int _secondsPerMinute = 60;
         private const int _millisecondsPerSecond = 10000;
         private const int _minimumMillisecondsToPublishUpdates = 200;
 
         private IStopwatch stopwatch;
-        private ITimeOfDayFactory timeOfDayFactory;
-        private ISubscription universeTImeRequestSubscription;
         private CurrentUniverseTimeMessage timeUpdatedMessage;
 
-        private long lastMillisecondCheck;
+        private ulong lastMillisecondCheck;
+        private IDateTimeFactory dateTimeFactory;
 
-        public MudUniverseClock(int hoursPerDay, IStopwatch stopwatch, ITimeOfDayFactory timeOfDayFactory, IMessageBrokerFactory brokerFactory)
+        public MudUniverseClock(IDateTimeFactory dateTimeFactory, IStopwatch stopwatch, IMessageBrokerFactory brokerFactory)
         {
             this.MessageBroker = brokerFactory.CreateBroker();
-
             this.stopwatch = stopwatch;
-            this.timeOfDayFactory = timeOfDayFactory;
-            this.HoursPerDay = hoursPerDay;
-
-            this.CalendarDayToRealHourRatio = 0.5;
+            this.dateTimeFactory = dateTimeFactory;
         }
 
         public IMessageBroker MessageBroker { get; }
-
-        public int HoursPerDay { get; }
-
-        public double CalendarDayToRealHourRatio { get; private set; }
-
-        public double RealTimeToCalendarTimeCorrectionFactor => this.CalendarDayToRealHourRatio / this.HoursPerDay;
 
         public Guid Id { get; } = Guid.NewGuid();
 
@@ -42,55 +33,36 @@ namespace MudDesigner.Runtime.Game
 
         public DateTime CreatedOn { get; } = DateTime.UtcNow;
 
-        public double TimeAlive => DateTime.UtcNow.Subtract(this.CreatedOn).TotalSeconds;
-
-        public void SetCalendarDayToRealHourRatio(double ratio) => this.CalendarDayToRealHourRatio = ratio;
+        public double TimeAlive => this.stopwatch.GetSeconds();
 
         public Task Initialize()
         {
             this.stopwatch.Start();
-            this.timeUpdatedMessage = new CurrentUniverseTimeMessage(this.GetCurrentUniverseTime());
             return Task.CompletedTask;
         }
 
         public Task Delete()
         {
             this.stopwatch.Stop();
-
             return Task.CompletedTask;
         }
 
-        public ITimeOfDay GetCurrentUniverseTime()
-        {
-            int hoursIntoCurrentDay = (int)this.stopwatch.GetHours() % this.HoursPerDay;
-            int minutesIntoCurrentHour = (int)this.stopwatch.GetMinutes() % _minutesPerHour;
-            int secondsIntoCurrentMinute = (int)this.stopwatch.GetSeconds() % _secondsPerMinute;
-            int millisecondsIntoCurrentSecond = (int)this.stopwatch.GetMilliseconds() % _millisecondsPerSecond;
+        public ulong GetUniverseAgeAsMilliseconds() => this.stopwatch.GetMilliseconds();
 
-            return this.timeOfDayFactory.Create(
-                hoursIntoCurrentDay,
-                minutesIntoCurrentHour,
-                secondsIntoCurrentMinute,
-                millisecondsIntoCurrentSecond);
-        }
+        public IDateTime GetUniverseDateTime() => this.dateTimeFactory.CreateDateTime(this.GetUniverseAgeAsMilliseconds(), 24);
 
-        public void Disable()
-        {
-            this.stopwatch.Stop();
-        }
+        public void Disable() => this.stopwatch.Stop();
 
-        public void Enable()
-        {
-            this.stopwatch.Start();
-        }
+        public void Enable() => this.stopwatch.Start();
 
         public Task Update(IGame game)
         {
-            long currentMilliseconds = this.stopwatch.GetMilliseconds();
-            long difference = currentMilliseconds - this.lastMillisecondCheck;
+            ulong currentMilliseconds = this.stopwatch.GetMilliseconds();
+            ulong difference = currentMilliseconds - this.lastMillisecondCheck;
+
             if (difference >= _minimumMillisecondsToPublishUpdates)
             {
-                this.MessageBroker.Publish(new CurrentUniverseTimeMessage(this.GetCurrentUniverseTime()));
+                this.MessageBroker.Publish(new CurrentUniverseTimeMessage(this.GetUniverseDateTime()));
                 this.lastMillisecondCheck = currentMilliseconds;
             }
 

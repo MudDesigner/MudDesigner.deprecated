@@ -8,12 +8,12 @@
 
         void Reset();
 
-        long GetHours();
+        ulong GetHours();
 
-        long GetMinutes();
+        ulong GetMinutes();
 
-        long GetSeconds();
+        ulong GetSeconds();
 
-        long GetMilliseconds();
+        ulong GetMilliseconds();
     }
 }

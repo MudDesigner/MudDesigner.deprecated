@@ -1,0 +1,6 @@
+<Project>
+	<PropertyGroup>
+		<MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+		<NetStandardImplicitPackageVersion>1.4</NetStandardImplicitPackageVersion>
+	</PropertyGroup>
+</Project>
