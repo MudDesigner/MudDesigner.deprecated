@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MudDesigner.Runtime.Game;
 
 namespace MudDesigner.Runtime.Networking
 {
@@ -11,6 +12,8 @@ namespace MudDesigner.Runtime.Networking
 
         IServerConfiguration Configuration { get; }
 
-        IEnumerable<IConnection> GetConnections();
+        IPlayer[] GetConnectedPlayers();
+
+        IConnection GetConnectionForPlayer(IPlayer player);
     }
 }

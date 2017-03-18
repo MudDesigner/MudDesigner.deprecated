@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime
 {
@@ -13,14 +14,16 @@ namespace MudDesigner.Runtime
         /// </summary>
         /// <param name="callback">The message being posted along with the subscription registered to receive the post.</param>
         /// <returns></returns>
-        void Register(
-            Action<TMessageType, ISubscription> callback,
-            Func<TMessageType, bool> condition = null);
+        void Register(Action<TMessageType, ISubscription> callback, Func<TMessageType, bool> condition = null);
+
+        void Register(Func<TMessageType, ISubscription, Task> asyncProcessor, Func<TMessageType, Task<bool>> asyncCondition);
 
         /// <summary>
         /// Processes the message, invoking the registered callbacks if their conditions are met.
         /// </summary>
         /// <param name="message">The message.</param>
         void ProcessMessage(TMessageType message);
+
+        Task ProcessMessageAsync(TMessageType message);
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;net461</TargetFrameworks>
+    <TargetFramework>netstandard1.4</TargetFramework>
     <AssemblyName>MudDesigner.Runtime.Adapter.Telnet</AssemblyName>
     <RootNamespace>MudDesigner.Runtime.Adapter.Telnet</RootNamespace>
   </PropertyGroup>

@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -12,6 +14,19 @@ using MudDesigner.Runtime.Networking;
 
 namespace InteractiveServer
 {
+    public class OnConnectedCommand : IGameCommand
+    {
+        public string Name => "Connected";
+
+        public string Command => "Connect";
+
+        public ISecurityPolicy Policy => throw new NotImplementedException();
+
+        public async Task Execute(IPlayer target, IMessageBroker broker, params string[] arguments)
+        {
+            await broker.PublishAsync(new NotifyPlayerMessage("Please enter your name", target));
+        }
+    }
     class ViewModel
     {
         const string _configFilename = "Config.json";
@@ -21,19 +36,23 @@ namespace InteractiveServer
         private Dispatcher mainThread;
         private Socket clientSocket;
         private SocketAsyncEventArgs eventArgs;
-        private ISubscription serverMessagesSubscription;
+        private List<ISubscription> notificationSubscriptions;
 
         public ViewModel(Dispatcher mainThread)
         {
             this.mainThread = mainThread;
             this.Config = new Configuration();
+            this.notificationSubscriptions = new List<ISubscription>();
+
             this.StartCommand = new AsyncCommandDelegate(this.Initialize);
             this.StopCommand = new AsyncCommandDelegate(this.StopInteractiveMode);
             this.ClientRequestCommand = new CommandDelegate<string>((data) =>
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
-                this.eventArgs.SetBuffer(buffer, 0, buffer.Length);
-                this.clientSocket.SendAsync(this.eventArgs);
+                var args = new SocketAsyncEventArgs();
+                args.SetBuffer(buffer, 0, buffer.Length);
+                args.RemoteEndPoint = clientSocket.RemoteEndPoint;
+                this.clientSocket.SendAsync(args);
             });
         }
 
@@ -65,7 +84,7 @@ namespace InteractiveServer
             };
 
             this.game = new MudGame(gameConfig, clock, brokerFactory);
-            var server = this.InitializeServer(game);
+            var server = this.InitializeServer(game, brokerFactory);
 
 
             game.UseAdapters(server);
@@ -75,17 +94,28 @@ namespace InteractiveServer
             await this.InitializeClient();
         }
 
-        private IServer InitializeServer(IGame game)
+        private IServer InitializeServer(IGame game, IMessageBrokerFactory brokerFactory)
         {
-            var serverConfig = new ServerConfiguration { ServerContextFactory = new SocketContextFactory(), Port = 20000, };
-            var server = new TelnetServer(game, serverConfig, null);
-            server.OnStateChanged += this.HandleServerStateChanged;
-            server.OnConnectionEstablished += this.ClientConnected;
-
-            this.serverMessagesSubscription = game.MessageBroker.Subscribe<NetworkMessageReceived>((msg, sub) =>
+            var serverConfig = new ServerConfiguration
             {
-                this.mainThread.Invoke(() => this.ServerMessages.Add($"Client sent: {msg.Content}"));
-            });
+                Port = 20000,
+                ConnectedMessage = "Welcome to the Interactive Server!",
+                OnClientConnectedCommand = new OnConnectedCommand(),
+            };
+
+            var server = new TelnetServer(game, serverConfig, new MudPlayerFactory(brokerFactory), new SocketContextFactory(brokerFactory));
+            server.OnStateChanged += this.HandleServerStateChanged;
+
+            // Handle subscriptions
+            ISubscription subscription = game.MessageBroker.Subscribe<NetworkMessageReceived>(
+                (msg, sub) => this.mainThread.Invoke(() => this.ServerMessages.Add($"Client sent: {msg.Content}")),
+                (msg) => (string.IsNullOrEmpty(msg.Content) || msg.Content.Equals("\r\n")) ? false : true);
+
+            this.notificationSubscriptions.Add(subscription);
+
+            subscription = game.MessageBroker.Subscribe<PlayerInstantiatedMessage>(
+                (msg, sub) => this.mainThread.Invoke(() => this.ServerMessages.Add("New player connection established.")));
+            this.notificationSubscriptions.Add(subscription);
 
             return server;
         }
@@ -115,11 +145,6 @@ namespace InteractiveServer
             }
         }
 
-        private void ClientConnected(IConnection obj)
-        {
-            this.ServerMessages.Add("Client connected.");
-        }
-
         private Task InitializeClient()
         {
             var serverEndPoint = new IPEndPoint(IPAddress.Loopback, 20000);
@@ -129,7 +154,7 @@ namespace InteractiveServer
             eventArgs.SetBuffer(new byte[256], 0, 256);
             eventArgs.RemoteEndPoint = serverEndPoint;
             eventArgs.Completed += this.ClientNetworkCommunicationCompleted;
-            
+
             clientSocket.ConnectAsync(eventArgs);
             this.clientSocket = clientSocket;
             return Task.CompletedTask;
@@ -137,6 +162,21 @@ namespace InteractiveServer
 
         private void ClientNetworkCommunicationCompleted(object sender, SocketAsyncEventArgs e)
         {
+            if (e.LastOperation == SocketAsyncOperation.Connect)
+            {
+                e.ConnectSocket.ReceiveAsync(e);
+            }
+            else if (e.LastOperation == SocketAsyncOperation.Receive)
+            {
+                string message = Encoding.UTF8.GetString(e.Buffer, 0, e.BytesTransferred);
+                if (string.IsNullOrEmpty(message) || message.Equals("\r\n"))
+                {
+                    return;
+                }
+
+                this.mainThread.Invoke(() => this.ClientMessages.Add(message));
+                e.ConnectSocket.ReceiveAsync(e);
+            }
         }
 
         private async Task StopInteractiveMode()
@@ -159,7 +199,11 @@ namespace InteractiveServer
 
         private async Task StopServer()
         {
-            this.serverMessagesSubscription.Unsubscribe();
+            foreach (ISubscription subscription in this.notificationSubscriptions)
+            {
+                subscription.Unsubscribe();
+            }
+
             await this.game.StopAsync();
             this.game = null;
 

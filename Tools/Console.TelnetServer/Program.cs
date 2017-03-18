@@ -67,11 +67,8 @@ namespace MudDesigner.Tools.TelnetServerApp
             var game = new MudGame(gameConfig, clock, brokerFactory);
 
             // Setup the server
-            var serverConfig = new ServerConfiguration
-            {
-                ServerContextFactory = new SocketContextFactory(),
-            };
-            var server = new TelnetServer(game, serverConfig, null);
+            var serverConfig = new ServerConfiguration();
+            var server = new TelnetServer(game, serverConfig, new MudPlayerFactory(brokerFactory), new SocketContextFactory(brokerFactory));
 
             IMessageBroker broker = brokerFactory.CreateBroker();
             broker.Subscribe<CurrentUniverseTimeMessage>((msg, sub) => Console.WriteLine(msg.CurrentTime));

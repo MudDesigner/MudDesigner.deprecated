@@ -22,9 +22,8 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         const byte _dont = 254;
         const byte _interpretAsCommand = 255;
 
-        private Socket serverSocket;
         private bool isDisposing;
-        private IServer server;
+        private TelnetServer server;
         private IServerConfiguration serverConfig;
 
         private ObjectPool<SocketAsyncEventArgs> socketArgsPool;
@@ -32,38 +31,40 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         private const int _bufferPoolBucketSize = 10;
         private IPEndPoint serverEndPoint;
 
-        internal ServerSocketContext(IServer server)
+        internal ServerSocketContext(TelnetServer server)
         {
             this.server = server;
             this.serverConfig = server.Configuration;
+
             this.socketArgsPool = new ObjectPool<SocketAsyncEventArgs>(100, this.CreateSocketArgs);
             this.bufferPool = ArrayPool<byte>.Create(this.server.Configuration.PreferredBufferSize, _bufferPoolBucketSize);
         }
 
-        public event Action<string> MessageReceived;
-
         public IMessageBroker MessageBroker => this.server.MessageBroker;
+
+        public Socket ServerSocket { get; private set; }
 
         public Task Delete()
         {
             this.isDisposing = true;
-            this.serverSocket.Dispose();
+            this.ServerSocket.Dispose();
             return Task.CompletedTask;
         }
 
         public Task Initialize()
         {
             this.serverEndPoint = new IPEndPoint(IPAddress.Any, this.serverConfig.Port);
-            this.serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this.serverSocket.Bind(serverEndPoint);
-            this.serverSocket.Listen(20);
+            this.ServerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.ServerSocket.Bind(serverEndPoint);
+            this.ServerSocket.Listen(20);
+
             this.ListenForConnection();
             return Task.CompletedTask;
         }
 
         public Task SendMessage(byte[] message)
         {
-            this.serverSocket.AcceptAsync(new SocketAsyncEventArgs());
+            this.ServerSocket.AcceptAsync(new SocketAsyncEventArgs());
             return Task.CompletedTask;
         }
 
@@ -75,7 +76,7 @@ namespace MudDesigner.Runtime.Adapter.Telnet
             }
 
             var socketAsyncArgs = this.socketArgsPool.Rent();
-            this.serverSocket.AcceptAsync(socketAsyncArgs);
+            this.ServerSocket.AcceptAsync(socketAsyncArgs);
         }
 
         private SocketAsyncEventArgs CreateSocketArgs()
@@ -129,6 +130,10 @@ namespace MudDesigner.Runtime.Adapter.Telnet
 
         private void ClientConnected(SocketAsyncEventArgs e)
         {
+            IConnection connection = new ClientTelnetConnection(this, e);
+            var connectionMessage = new ClientConnectedMessage(connection);
+            this.MessageBroker.Publish(connectionMessage);
+
             ListenForConnection();
             e.AcceptSocket.ReceiveAsync(e);
         }
@@ -151,8 +156,9 @@ namespace MudDesigner.Runtime.Adapter.Telnet
 
             // parse the contents of the buffer;
             string contents = Encoding.UTF8.GetString(buffer, 0, bufferSize);
-            this.MessageReceived?.Invoke(contents);
             asyncArgs.AcceptSocket.ReceiveAsync(asyncArgs);
+
+            this.MessageBroker.Publish(new NetworkMessageReceived(contents));
         }
 
         private void DisconnectSocket(SocketAsyncEventArgs asyncArgs)

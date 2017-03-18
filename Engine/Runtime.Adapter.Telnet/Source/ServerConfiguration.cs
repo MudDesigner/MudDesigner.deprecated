@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using MudDesigner.Runtime.Game;
 using MudDesigner.Runtime.Networking;
 
 namespace MudDesigner.Runtime.Adapter.Telnet
@@ -14,6 +15,6 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         public string[] MessageOfTheDay { get; set; }
         public string ConnectedMessage { get; set; }
         public IPAddress HostAddress { get; set; } = IPAddress.Loopback;
-        public IServerContextFactory ServerContextFactory { get; set; } = new SocketContextFactory();
+        public IGameCommand OnClientConnectedCommand { get; set; }
     }
 }

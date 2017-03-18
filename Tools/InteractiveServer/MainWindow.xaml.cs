@@ -33,5 +33,10 @@ namespace InteractiveServer
             this.viewModel.ClientRequestCommand.Execute(commandTextBox.Text);
             commandTextBox.Clear();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            this.viewModel.StopCommand.Execute(null);
+        }
     }
 }

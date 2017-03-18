@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime
 {
@@ -12,18 +13,36 @@ namespace MudDesigner.Runtime
         readonly ConcurrentDictionary<Type, List<ISubscription>> listeners =
             new ConcurrentDictionary<Type, List<ISubscription>>();
 
-        /// <summary>
-        /// Subscribe publications for the message type specified.
-        /// @code
-        /// private ISubscription whisperSubscription;
-        /// 
-        /// public void Initialize()
-        /// {
-        ///     this.whisperSubscription = notificationManager.Subscribe<WhisperMessage>((msg, sub) => DoStuff);
-        /// }
-        /// @endcode
-        /// </summary>
-        /// <typeparam name="TMessageType">A concrete implementation of IMessage</typeparam>
+        public ISubscription Subscribe<TMessageType>(Func<TMessageType, ISubscription, Task> asyncCallback, Func<TMessageType, Task<bool>> asyncCondition = null) where TMessageType : IMessage
+        {
+            if (asyncCallback == null)
+            {
+                throw new ArgumentNullException(nameof(asyncCallback), "Callback must not be null when subscribing");
+            }
+
+            Type messageType = typeof(TMessageType);
+
+            // Create our key if it doesn't exist along with an empty collection as the value.
+            if (!listeners.ContainsKey(messageType))
+            {
+                listeners.TryAdd(messageType, new List<ISubscription>());
+            }
+
+            // Add our notification to our listener collection so we can publish to it later, then return it.
+            // TODO: Move instancing the Notification in to a Factory.
+            var handler = new Notification<TMessageType>();
+            handler.Register(asyncCallback, asyncCondition);
+            handler.Unsubscribing += this.Unsubscribe;
+
+            List<ISubscription> subscribers = listeners[messageType];
+            lock (subscribers)
+            {
+                subscribers.Add(handler);
+            }
+
+            return handler;
+        }
+
         /// <returns></returns>
         public ISubscription Subscribe<TMessageType>(Action<TMessageType, ISubscription> callback, Func<TMessageType, bool> condition = null) where TMessageType : IMessage
         {
@@ -78,6 +97,27 @@ namespace MudDesigner.Runtime
             foreach (INotification<T> handler in listenersToPublishTo)
             {
                 handler.ProcessMessage(message);
+            }
+        }
+
+        public async Task PublishAsync<T>(T message) where T : IMessage
+        {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message), "You can not publish a null message.");
+            }
+
+            if (!listeners.ContainsKey(typeof(T)))
+            {
+                return;
+            }
+
+            // Create a local reference of the collection to protect us against the collection
+            // adding a new subscriber while we're enumerating
+            var listenersToPublishTo = this.listeners[typeof(T)].ToArray();
+            foreach (INotification<T> handler in listenersToPublishTo)
+            {
+                await handler.ProcessMessageAsync(message);
             }
         }
 

@@ -11,7 +11,7 @@ namespace MudDesigner.Runtime.Adapter.Telnet
             var serverConfig = new ServerConfiguration();
 
             configuration?.Invoke(serverConfig);
-            var server = new TelnetServer(game, serverConfig, null);
+            var server = new TelnetServer(game, serverConfig, null, null);
 
             game.UseAdapter(server);
 

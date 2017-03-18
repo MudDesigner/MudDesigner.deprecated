@@ -3,6 +3,9 @@ using MudDesigner.Runtime.Networking;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MudDesigner.Runtime.Adapter.Telnet
 {
@@ -12,27 +15,32 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         private IGame game;
         private string serverName;
 
-        private Dictionary<IConnection, IPlayer> connectedClients;
-        private IConnectionFactory<TelnetServer> serverConnectionFactory;
-        private IServerContext serverContext;
+        private Dictionary<IConnection, IPlayer> connectionToPlayerMap;
+        private Dictionary<IPlayer, IConnection> playerToConnectionMap;
+        private readonly object connectedClientsLock;
+        
+        private IPlayerFactory playerFactory;
+        private IServerContextFactory serverContextFactory;
 
-        public TelnetServer(IGame game, IServerConfiguration serverConfiguration, IConnectionFactory<TelnetServer> connectionFactory)
+        public TelnetServer(IGame game, IServerConfiguration serverConfiguration, IPlayerFactory playerFactory, IServerContextFactory contextFactory)
         {
             this.game = game;
             this.serverConfiguration = serverConfiguration;
-            this.serverConnectionFactory = connectionFactory;
+            this.playerFactory = playerFactory;
+            this.serverContextFactory = contextFactory;
 
+            this.connectedClientsLock = new object();
+            this.connectionToPlayerMap = new Dictionary<IConnection, IPlayer>();
+            this.playerToConnectionMap = new Dictionary<IPlayer, IConnection>();
             this.serverName = $"{this.game} Telnet Server";
             this.State = ServerState.None;
         }
 
         public event Action<ServerState> OnStateChanged;
 
-        public event Action<IConnection> OnConnectionEstablished;
-
-        public event Action<IConnection> OnDisconnection;
-
         public IMessageBroker MessageBroker => this.game.MessageBroker;
+
+        public IServerContext ServerContext { get; private set; }
 
         public IServerConfiguration Configuration => this.serverConfiguration;
 
@@ -45,15 +53,20 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         public Task Configure()
         {
             this.SetState(ServerState.Configuring);
-            this.serverContext = this.Configuration.ServerContextFactory.CreateForServer(this);
+            this.ServerContext = this.serverContextFactory.CreateForServer(this);
+            this.MessageBroker.Subscribe<ClientConnectedMessage>(async (connectMessage, subscription) => await this.SetupPlayer(connectMessage.Content));
 
             this.SetState(ServerState.Configured);
             return Task.CompletedTask;
         }
 
-        public IEnumerable<IConnection> GetConnections()
+        public IPlayer[] GetConnectedPlayers() => this.playerToConnectionMap.Keys.ToArray();
+
+        public IConnection GetConnectionForPlayer(IPlayer player)
         {
-            throw new NotImplementedException();
+            IConnection connection = null;
+            this.playerToConnectionMap.TryGetValue(player, out connection);
+            return connection;
         }
 
         public async Task Initialize()
@@ -64,8 +77,12 @@ namespace MudDesigner.Runtime.Adapter.Telnet
             }
 
             this.SetState(ServerState.Starting);
-            this.serverContext.MessageReceived += (msg) => this.MessageBroker.Publish(new NetworkMessageReceived(msg));
-            await this.serverContext.Initialize();
+            this.MessageBroker.Subscribe<NotifyPlayerMessage>(async (message, subscription) =>
+            {
+                await this.GetConnectionForPlayer(message.Target)?.SendMessage(message.Content);
+            });
+
+            await this.ServerContext.Initialize();
             this.SetState(ServerState.Running);
         }
 
@@ -77,16 +94,33 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         public async Task Delete()
         {
             this.SetState(ServerState.Stopping);
-            await this.serverContext.Delete();
+            await this.ServerContext.Delete();
 
             this.SetState(ServerState.Stopped);
+        }
+
+        private async Task SetupPlayer(IConnection connection)
+        {
+            IPlayer player = this.playerFactory.CreatePlayer();
+
+            Monitor.Enter(this.connectedClientsLock);
+            this.connectionToPlayerMap.Add(connection, player);
+            this.playerToConnectionMap.Add(player, connection);
+            Monitor.Exit(this.connectedClientsLock);
+
+            this.MessageBroker.Publish(new PlayerInstantiatedMessage(player));
+
+            if (!string.IsNullOrEmpty(this.Configuration.ConnectedMessage))
+            {
+                await connection.SendMessage(this.Configuration.ConnectedMessage);
+                await this.Configuration.OnClientConnectedCommand.Execute(player, this.MessageBroker);
+            }
         }
 
         private void SetState(ServerState state)
         {
             this.State = state;
             this.OnStateChanged?.Invoke(state);
-            //this.MessageBroker?.Publish(new ServerStateChangedMessage(this));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime
 {
@@ -13,6 +14,8 @@ namespace MudDesigner.Runtime
         /// The conditions that must be met in order to fire the callbacks.
         /// </summary>
         Func<TMessage, bool> condition;
+        private Func<TMessage, Task<bool>> asyncCondition;
+        private Func<TMessage, ISubscription, Task> asyncCallback;
 
         /// <summary>
         /// Occurs when the subscription is being unsubscribed.
@@ -38,6 +41,13 @@ namespace MudDesigner.Runtime
             this.IsActive = true;
         }
 
+        public void Register(Func<TMessage, ISubscription, Task> asyncProcessor, Func<TMessage, Task<bool>> asyncCondition)
+        {
+            this.asyncCallback = asyncProcessor;
+            this.asyncCondition = asyncCondition;
+            this.IsActive = true;
+        }
+
         /// <summary>
         /// Unsubscribes the handler from notifications. This cleans up all of the callback references and conditions.
         /// </summary>
@@ -45,6 +55,8 @@ namespace MudDesigner.Runtime
         {
             this.callback = null;
             this.condition = null;
+            this.asyncCallback = null;
+            this.asyncCondition = null;
 
             try
             {
@@ -67,7 +79,35 @@ namespace MudDesigner.Runtime
                 return;
             }
 
-            this.callback(message, this);
+            if (this.callback != null)
+            {
+                this.callback(message, this);
+            }
+            else
+            {
+                this.asyncCallback?.Invoke(message, this);
+            }
+        }
+
+        public async Task ProcessMessageAsync(TMessage message)
+        {
+            if (this.asyncCondition != null)
+            {
+                bool canProcess = await this.asyncCondition(message);
+                if (!canProcess)
+                {
+                    return;
+                }
+            }
+
+            if (this.asyncCallback != null)
+            {
+                await this.asyncCallback(message, this);
+            }
+            else if (this.callback != null)
+            {
+                await Task.Run(() => this.callback(message, this));
+            }
         }
 
         /// <summary>

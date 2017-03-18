@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;net461</TargetFrameworks>
+    <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>MudDesigner.Runtime</RootNamespace>
     <AssemblyName>MudDesigner.Runtime.Game</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Game\NewFolder\**" />
+    <EmbeddedResource Remove="Game\NewFolder\**" />
+    <None Remove="Game\NewFolder\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Runtime.Abstractions\Source\Runtime.Abstractions.csproj" />

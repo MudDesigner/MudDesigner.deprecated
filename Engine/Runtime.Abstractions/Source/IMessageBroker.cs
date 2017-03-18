@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MudDesigner.Runtime
 {
@@ -16,11 +17,15 @@ namespace MudDesigner.Runtime
         /// <returns>Returns an ISubscription that can be used to unsubscribe.</returns>
         ISubscription Subscribe<TMessageType>(Action<TMessageType, ISubscription> callback, Func<TMessageType, bool> condition = null) where TMessageType : IMessage;
 
+        ISubscription Subscribe<TMessageType>(Func<TMessageType, ISubscription, Task> asyncCallback, Func<TMessageType, Task<bool>> asyncCondition = null) where TMessageType : IMessage;
+
         /// <summary>
         /// Publishes the specified message.
         /// </summary>
         /// <typeparam name="TMessageType"></typeparam>
         /// <param name="message">The message.</param>
         void Publish<TMessageType>(TMessageType message) where TMessageType : IMessage;
+
+        Task PublishAsync<TMessageType>(TMessageType message) where TMessageType : IMessage;
     }
 }

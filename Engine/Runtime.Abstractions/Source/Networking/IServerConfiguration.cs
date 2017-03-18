@@ -1,9 +1,12 @@
 ﻿using System.Net;
+using MudDesigner.Runtime.Game;
 
 namespace MudDesigner.Runtime.Networking
 {
     public interface IServerConfiguration
     {
+        IGameCommand OnClientConnectedCommand { get; set; }
+
         string Owner { get; set; }
 
         int Port { get; set; }
@@ -19,7 +22,5 @@ namespace MudDesigner.Runtime.Networking
         string[] MessageOfTheDay { get; set; }
 
         string ConnectedMessage { get; set; }
-
-        IServerContextFactory ServerContextFactory { get; set; }
     }
 }
