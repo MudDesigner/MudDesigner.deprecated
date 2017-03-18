@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -39,8 +40,8 @@ namespace InteractiveServer
         public ICommand StartCommand { get; }
         public ICommand StopCommand { get; }
 
-        public List<string> ServerMessages { get; } = new List<string>();
-        public List<string> ClientMessages { get; } = new List<string>();
+        public ObservableCollection<string> ServerMessages { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> ClientMessages { get; } = new ObservableCollection<string>();
 
         internal async Task Initialize()
         {
@@ -63,7 +64,7 @@ namespace InteractiveServer
 
             game.UseAdapters(server);
             await game.Configure();
-            this.runningGameTask = game.StartAsync();
+            this.runningGameTask = Task.Run(async () => await game.StartAsync());
         }
 
         private IServer InitializeServer(IGame game)
