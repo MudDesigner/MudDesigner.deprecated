@@ -64,6 +64,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AsyncCommandDelegate.cs" />
+    <Compile Include="CommandDelegate`1.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">

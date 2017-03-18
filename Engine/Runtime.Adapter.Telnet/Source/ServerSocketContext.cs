@@ -23,6 +23,7 @@ namespace MudDesigner.Runtime.Adapter.Telnet
         const byte _interpretAsCommand = 255;
 
         private Socket serverSocket;
+        private bool isDisposing;
         private IServer server;
         private IServerConfiguration serverConfig;
 
@@ -45,6 +46,7 @@ namespace MudDesigner.Runtime.Adapter.Telnet
 
         public Task Delete()
         {
+            this.isDisposing = true;
             this.serverSocket.Dispose();
             return Task.CompletedTask;
         }
@@ -67,6 +69,11 @@ namespace MudDesigner.Runtime.Adapter.Telnet
 
         private void ListenForConnection()
         {
+            if (this.isDisposing)
+            {
+                return;
+            }
+
             var socketAsyncArgs = this.socketArgsPool.Rent();
             this.serverSocket.AcceptAsync(socketAsyncArgs);
         }

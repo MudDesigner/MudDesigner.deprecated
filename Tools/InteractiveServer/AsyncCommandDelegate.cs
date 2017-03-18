@@ -17,6 +17,8 @@ namespace InteractiveServer
 
         public event EventHandler CanExecuteChanged;
 
+        public void RefreshState(object requestor) => this.CanExecuteChanged?.Invoke(requestor, EventArgs.Empty);
+
         public bool CanExecute(object parameter) => this.canExecuteCallback?.Invoke() ?? true;
 
         public async void Execute(object parameter) => await this.onExecuteCallback?.Invoke();

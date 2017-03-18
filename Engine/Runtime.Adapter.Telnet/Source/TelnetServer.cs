@@ -64,6 +64,7 @@ namespace MudDesigner.Runtime.Adapter.Telnet
             }
 
             this.SetState(ServerState.Starting);
+            this.serverContext.MessageReceived += (msg) => this.MessageBroker.Publish(new NetworkMessageReceived(msg));
             await this.serverContext.Initialize();
             this.SetState(ServerState.Running);
         }
