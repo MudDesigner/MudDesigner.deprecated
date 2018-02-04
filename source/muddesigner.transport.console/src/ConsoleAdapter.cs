@@ -7,6 +7,7 @@ namespace MudEngine
     public class ConsoleAdapter : IAdapter
     {
         private ITransportPipeline pipeline;
+        private bool isRunning = false;
         
         public ConsoleAdapter(IMessageBrokerFactory brokerFactory)
         {
@@ -32,6 +33,15 @@ namespace MudEngine
 
         public Task Initialize()
         {
+            // This Task runs forever in the background, as long as the game is running.
+            Task.Run(() =>
+            {
+                while(this.isRunning)
+                {
+
+                }
+            });
+
             return Task.CompletedTask;
         }
 
