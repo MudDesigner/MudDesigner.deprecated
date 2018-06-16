@@ -38,7 +38,7 @@ namespace MudEngine
             {
                 while(this.isRunning)
                 {
-
+                    
                 }
             });
 
