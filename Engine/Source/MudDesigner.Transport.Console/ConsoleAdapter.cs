@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using MudEngine.Transport;
 
@@ -8,6 +9,7 @@ namespace MudEngine
     {
         private ITransportPipeline pipeline;
         private bool isRunning = false;
+        private Task adapterProcess = default(Task);
         
         public ConsoleAdapter(IMessageBrokerFactory brokerFactory)
         {
@@ -26,6 +28,8 @@ namespace MudEngine
             return Task.CompletedTask;
         }
 
+        public async Task WriteMessage(string message) => await this.pipeline.Output.Flush(Encoding.UTF8.GetBytes(message));
+
         public Task Delete()
         {
             throw new NotImplementedException();
@@ -34,11 +38,19 @@ namespace MudEngine
         public Task Initialize()
         {
             // This Task runs forever in the background, as long as the game is running.
-            Task.Run(() =>
+            this.pipeline = new ConsolePipeline();
+            this.isRunning = true;
+            this.adapterProcess = Task.Run(async () =>
             {
                 while(this.isRunning)
                 {
-                    
+                    byte[] buffer = await this.pipeline.Input.Read();
+                    if (buffer.Length == 0)
+                    {
+                        return;
+                    }
+
+                    await this.MessageBroker.PublishAsync(new InputReceivedMessage(buffer));
                 }
             });
 
@@ -47,13 +59,6 @@ namespace MudEngine
 
         public async Task Update()
         {
-            byte[] buffer = await this.pipeline.Input.Read();
-            if (buffer.Length == 0)
-            {
-                return;
-            }
-            
-            await this.MessageBroker.PublishAsync(new InputReceivedMessage(buffer));
         }
     }
 }

@@ -1,27 +1,28 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{2D16512B-75E6-4FC7-9556-700BEEA6AB34}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{E981C414-D32E-4D38-B4AC-58E139CA7031}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3CCA0474-20E1-4160-99EE-DBF764514ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudDesigner.Core", "Engine\Source\MudDesigner.Core\MudDesigner.Core.csproj", "{38F03E9D-3727-4C0A-B69B-E5CE5FD8C912}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Core", "Engine\Source\MudDesigner.Core\MudDesigner.Core.csproj", "{38F03E9D-3727-4C0A-B69B-E5CE5FD8C912}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudDesigner.Game", "Engine\Source\MudDesigner.Game\MudDesigner.Game.csproj", "{43BA19C8-4E87-4950-992F-5E6514CA5A51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Game", "Engine\Source\MudDesigner.Game\MudDesigner.Game.csproj", "{43BA19C8-4E87-4950-992F-5E6514CA5A51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudDesigner.Transport.Console", "Engine\Source\MudDesigner.Transport.Console\MudDesigner.Transport.Console.csproj", "{7132EB83-A499-41A8-860C-C04729E328A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Transport.Console", "Engine\Source\MudDesigner.Transport.Console\MudDesigner.Transport.Console.csproj", "{7132EB83-A499-41A8-860C-C04729E328A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudDesigner.Core.Tests", "Engine\Tests\MudDesigner.Core.Tests\MudDesigner.Core.Tests.csproj", "{5EBFDC6E-6208-4A17-A952-D4A780AF3452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Core.Tests", "Engine\Tests\MudDesigner.Core.Tests\MudDesigner.Core.Tests.csproj", "{5EBFDC6E-6208-4A17-A952-D4A780AF3452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudDesigner.Game.Tests", "Engine\Tests\MudDesigner.Game.Tests\MudDesigner.Game.Tests.csproj", "{C2FA3BF7-6E9E-40B4-94A3-B17D11928C7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Game.Tests", "Engine\Tests\MudDesigner.Game.Tests\MudDesigner.Game.Tests.csproj", "{C2FA3BF7-6E9E-40B4-94A3-B17D11928C7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{2D4B170F-716E-4D39-863B-7F8CE48DE1E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{4868710E-EF88-4824-988E-1FEA22E775B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "muddesigner.examplegame", "Applications\Source\MudDesigner.Example.Configuration\muddesigner.examplegame.csproj", "{A64BC152-BA42-4A4F-AD0B-4CBA23C1F1E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudDesigner.Example.Configuration", "Applications\Source\MudDesigner.Example.Configuration\MudDesigner.Example.Configuration.csproj", "{A64BC152-BA42-4A4F-AD0B-4CBA23C1F1E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +55,9 @@ Global
 		{A64BC152-BA42-4A4F-AD0B-4CBA23C1F1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A64BC152-BA42-4A4F-AD0B-4CBA23C1F1E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E981C414-D32E-4D38-B4AC-58E139CA7031} = {2D16512B-75E6-4FC7-9556-700BEEA6AB34}
 		{3CCA0474-20E1-4160-99EE-DBF764514ACD} = {2D16512B-75E6-4FC7-9556-700BEEA6AB34}
@@ -64,5 +68,8 @@ Global
 		{C2FA3BF7-6E9E-40B4-94A3-B17D11928C7B} = {3CCA0474-20E1-4160-99EE-DBF764514ACD}
 		{4868710E-EF88-4824-988E-1FEA22E775B6} = {2D4B170F-716E-4D39-863B-7F8CE48DE1E6}
 		{A64BC152-BA42-4A4F-AD0B-4CBA23C1F1E3} = {4868710E-EF88-4824-988E-1FEA22E775B6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F51F85F-FEE5-4B2C-81E6-25FF851CFA34}
 	EndGlobalSection
 EndGlobal

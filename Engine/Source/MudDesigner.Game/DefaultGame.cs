@@ -55,7 +55,7 @@ namespace MudEngine
 
         public Task Enable()
         {
-            this.IsEnabled = false;
+            this.IsEnabled = true;
             return Task.CompletedTask;
         }
 
@@ -63,6 +63,7 @@ namespace MudEngine
 
         public async Task Initialize()
         {
+            this.MessageBroker = this.configuration.MessageBrokerFactory.CreateBroker();
             await this.SetState(GameState.Starting);
             foreach(IAdapter adapter in this.adapters)
             {
@@ -76,6 +77,7 @@ namespace MudEngine
                 throw new ApplicationException("An adapter aborted the game initialization. The adapter that caused the cancellation is unknown. Evaluate any logs that the adapters might have produced. The game forced a self delete and attempted to clean up all used initialized resources.");
             }
 
+            await this.Enable();
             await this.SetState(GameState.Running);
             while(this.IsEnabled)
             {

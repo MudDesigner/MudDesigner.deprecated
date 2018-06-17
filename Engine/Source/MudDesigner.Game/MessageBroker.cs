@@ -51,7 +51,7 @@ namespace MudEngine
                 throw new ArgumentNullException(nameof(message), "You can not publish a null message.");
             }
 
-            if (this.listeners.TryGetValue(typeof(T), out List<ISubscription> listenersToPublishTo))
+            if (!this.listeners.TryGetValue(typeof(T), out List<ISubscription> listenersToPublishTo))
             {
                 return;
             }

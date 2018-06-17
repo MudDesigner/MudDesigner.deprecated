@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MudEngine.Transport;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MudEngine
@@ -15,8 +17,19 @@ namespace MudEngine
                 MessageBrokerFactory = new MessageBrokerFactory(),
             };
 
+            IMessageBroker broker = gameConfiguration.MessageBrokerFactory.CreateBroker();
+            broker.Subscribe<InputReceivedMessage>((msg, sub) =>
+            {
+                Console.WriteLine($"Message received: {Encoding.UTF8.GetString(msg.Content)}");
+                return Task.CompletedTask;
+            });
+
             var game = new DefaultGame(gameConfiguration);
-            game.Initialize().GetAwaiter().Result;
+            var consoleAdapter = new ConsoleAdapter(gameConfiguration.MessageBrokerFactory);
+            game.UseAdapters(consoleAdapter);
+            game.Initialize().GetAwaiter().GetResult();
+            Task.Delay(5000).GetAwaiter().GetResult();
+            consoleAdapter.WriteMessage("Delay completed").GetAwaiter().GetResult();
         }
     }
 }

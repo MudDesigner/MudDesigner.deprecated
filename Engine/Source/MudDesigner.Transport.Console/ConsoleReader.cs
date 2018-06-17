@@ -1,5 +1,6 @@
 using System;
 using System.Buffers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MudEngine.Transport
@@ -11,7 +12,7 @@ namespace MudEngine.Transport
         public Task<byte[]> Read()
         {
             string input = Console.ReadLine();
-            byte[] buffer = bufferPool.Rent(input.Length);
+            byte[] buffer = Encoding.UTF8.GetBytes(input);
             return Task.FromResult(buffer);
         }
     }
